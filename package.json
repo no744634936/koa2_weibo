@@ -9,9 +9,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "art-template": "^4.13.2",
     "debug": "^4.1.1",
-    "ejs": "~2.3.3",
     "koa": "^2.7.0",
+    "koa-art-template": "^1.1.1",
     "koa-bodyparser": "^4.2.1",
     "koa-convert": "^1.2.0",
     "koa-json": "^2.0.2",
