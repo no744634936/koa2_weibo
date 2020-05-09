@@ -52,3 +52,14 @@ npm install --save-dev cross-env
 
 
 至于怎么用，后面会解释。
+
+调整一下文件结构 将 public，controller， model，view，route app.js 文件夹放入src文件夹里
+
+然后将 bin/www 文件里的
+var app = require('../app');
+
+改为
+
+var app = require('../src/app');
+
+localhost:3000/ 运行的就是app.js这个文件。
