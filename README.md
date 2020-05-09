@@ -1,3 +1,5 @@
+这是一个自己配置的属于自己的脚手架
+
 因为上一次写cms系统的时候，是从零开始配置各种文件.
 还必须手动ctrl 加 alt 加 n 来开启app.js很麻烦，
 所以这次使用
@@ -32,3 +34,21 @@ app.use(views(__dirname + '/views', {
 
 导入art-template模板
 
+
+----------------------------------------------------------
+配置环境
+
+npm install --save-dev cross-env
+
+在package.json 里面将
+
+    "dev": "./node_modules/.bin/nodemon bin/www",
+    "prd": "pm2 start bin/www",
+
+    改成
+
+    "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon bin/www",
+    "prd": "cross-env NODE_ENV=production pm2 start bin/www",
+
+
+至于怎么用，后面会解释。
