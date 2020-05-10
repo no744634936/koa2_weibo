@@ -38,7 +38,6 @@ const blog=seq.define("blog",{
     }
 
 })
-
 module.exports={
     author,
     blog
