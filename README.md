@@ -1,22 +1,10 @@
-
-----------------------------------------------------------------
-
-运行命令
-node src/models/insert.js
-输入数据
+下载 redis到电脑上，打开 redis-serverr.exe 文件
 
 
-运行命令
-node src/models/select.js
-查询数据
+npm install redis --save
 
 
-连表查询
+查看src/redis文件夹里的所有文件。
 
-
-改
-
-删
-
-连接池。查看 seq.js
+学会如何写js doc
 
