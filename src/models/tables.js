@@ -38,6 +38,12 @@ const blog=seq.define("blog",{
     }
 
 })
+
+//这两句话是用来建立表与表之间的关系的。建立关系但是不使用外键
+//不写这两句，后面就没法执行连表查询。执行select_comples.js 文件。
+blog.belongsTo(author, { foreignKey: 'authorID',constraints: false});
+author.hasMany(blog, { foreignKey: 'authorID',constraints: false});
+
 module.exports={
     author,
     blog
