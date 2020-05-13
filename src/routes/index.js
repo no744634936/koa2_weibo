@@ -26,4 +26,10 @@ router.get("/testSession",async(ctx,next)=>{
               就可以看到zhanghaifeng这个值了`
 })
 
+router.get('/http_request', async (ctx, next) => {
+    ctx.body = {
+      title: 'good good'
+    }
+  })
+
 module.exports = router

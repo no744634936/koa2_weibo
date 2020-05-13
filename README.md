@@ -1,63 +1,38 @@
-下载 redis到电脑上，打开 redis-server.exe 文件。要一直运行redis
+使用jest 编写单元测试
+
+//开发环境使用jest ，加dev
+npm install jest --save-dev   
 
 
-npm install redis --save
+//package.json 里面写上
+
+"test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors"
+
+--runInBand  表示测试代码一个一个执行
+
+--forceExit 执行完之后强制退出
+
+--colors   有颜色为了美观
 
 
-查看src/redis文件夹里的所有文件。
-
-学会如何写js doc
-
---------------------------------------------
-1，将session写入redis
-
-npm install koa-redis koa-generic-session --save
+// test文件夹里写 demo.test.js 文件。
+  写入代码
+  注意测试文件一定要以 .test.js结尾，否则不能运行
 
 
-2，app.js 里面配置session
-
-//session 配置，将session放进redis里面去
-app.keys=["Ui_zhanghaifeng123"];  //将数据加密的签名，随便写。大小写，特殊字符，数字
-app.use(session({
-    key:"weibo.sid",  //cookie name 默认是koa.sid
-    prefix:"weibo:sess:",//redis key 的前缀，默认是 "koa:sess:" 将数据保存到redis的时候会加前缀为了好区分
-    cookie:{
-        path:"/",
-        httpOnly:true,
-        maxAge:24*24*60*1000,
-    },
-    //ttl:24*24*60*1000,    //cookie 过期之后，redis里面也要将数据删除。如果不写ttl就默认与cookie的maxAge一样的时间过期。
-    store:redisStore({
-        // all:"127.0.0.1:6379"
-        all:`${REDIS_CONF.host}:${REDIS_CONF.port}`
-    })
-}))
-
-3，写路由
-
-router.get("/testSession",async(ctx,next)=>{
-    ctx.session.name="zhanghaifeng";
-    ctx.body=`将session的值保存到redis里面去.
-              打开 redis-server.exe 然后打开redis-cli.exe,
-              然后在redis-cli里面输入keys * 查看加密后的session 的key
-              然后输入 get weibo:sess:~~~~~~~~~
-              (我测试的时候是这个key weibo:sess:9ABLOysxlw5LFILSmpLpa7NCQCbAZ4sg) 
-              就可以看到zhanghaifeng这个值了`
-})
 
 
-4，npm run dev
-
-5，将session储存到redis里面去
-
-    localhost:3000/testSession
+//最后执行test. 他是怎么找到test文件来执行的呢？
+npm run test 
 
 
-6,查看是否将sessio储存到了redis里面去了
+-----------------------------------
+http请求测试
 
-    打开 redis-server.exe 然后打开redis-cli.exe,
-    然后在redis-cli里面输入keys * 查看加密后的session 的key
-    然后输入 get weibo:sess:~~~~~~~~~
-    (我测试的时候是这个key weibo:sess:9ABLOysxlw5LFILSmpLpa7NCQCbAZ4sg) 
-    就可以看到zhanghaifeng这个值了
+//安装supertest
 
+npm install supertest --save-dev
+
+
+
+//test 文件夹里建立了server.js 跟 httpRequest.test.js文件
