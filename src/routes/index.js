@@ -32,4 +32,10 @@ router.get('/http_request', async (ctx, next) => {
     }
   })
 
+router.get('/env_test', async (ctx, next) => {
+    ctx.body = {
+      "环境变量": process.env.NODE_ENV
+    }
+})
+
 module.exports = router
