@@ -6,14 +6,25 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const render = require('koa-art-template')
 const index = require('./routes/index')
+const errorRoute=require("./routes/veiw/error")
 const path=require('path')
 const session=require("koa-generic-session")
 const redisStore=require("koa-redis")
-const {REDIS_CONF}=require("./redis/conf.js");
+const {REDIS_CONF}=require("./config/conf.js");
+const {isDev,isPrd}=require("./config/env.js")
+
+console.log(REDIS_CONF);
 
 
 // error handler
-onerror(app)
+//线上环境的时候，如果出现错误就显示错误页面，开发环境下不需要
+let errorPage={}
+
+if(isDev){
+    errorPage={redirect: "/error"}
+    
+}
+onerror(app,errorPage)            //当网页报错的时候，启动localhost:3000/error路由
 
 // middlewares
 app.use(bodyparser({
@@ -28,6 +39,9 @@ render(app, {
     extname: '.html', //后缀名
     debug: process.env.NODE_ENV !== 'production'  //是否开启调试模式
 });
+
+
+
 
 
 //session 配置，将session放进redis里面去
@@ -49,8 +63,9 @@ app.use(session({
 
 
 
-// routes
+// 注册路由
 app.use(index.routes(), index.allowedMethods())
+app.use(errorRoute.routes(), errorRoute.allowedMethods()) //404路由一定要注册到最后面
 
 // error-handling
 app.on('error', (err, ctx) => {
