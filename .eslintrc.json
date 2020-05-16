@@ -1,0 +1,14 @@
+{
+    "parser":"babel-eslint",
+    "env":{
+        "es6":true,
+        "commonjs":true,
+        "node":true
+    },
+    "rules":{
+        "indent":["error",4],       //换行缩进为4，不然报错
+        "quotes":["error","double",{"allowTemplateLiterals":true}],//引号为双引号，允许模板字符串(允许反引号里添加变量)。不然报错
+        "semi":["error","always"]   //必须使用分号不然报错
+    }
+
+}

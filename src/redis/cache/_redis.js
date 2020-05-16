@@ -3,7 +3,7 @@
  */
 
  let redis=require("redis");
- let {REDIS_CONF}=require("../conf.js");
+ let {REDIS_CONF}=require("../../config/conf.js");
 
 
  //创建客户端
