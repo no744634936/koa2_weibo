@@ -64,3 +64,7 @@ src\controllers\user\ApiResultFormat.js
 //把所有api请求失败的信息都放到 一个文件里面
 src\conf\errorInfo.js
 
+
+
+这一章节就完成了一个功能，当用户在
+http://localhost:3000/register 页面输入用户名的时候，显示，用户名可用 或者用户名不可用
