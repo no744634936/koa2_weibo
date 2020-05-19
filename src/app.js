@@ -6,6 +6,10 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const render = require('koa-art-template')
 const index = require('./routes/index')
+
+const userViewRouter=require('./routes/veiw/user.js')
+const userApiRouter=require("./routes/api/user.js")
+
 const path=require('path')
 
 
@@ -36,6 +40,8 @@ render(app, {
 
 // routes
 app.use(index.routes(), index.allowedMethods())
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+app.use(userApiRouter.routes(), userApiRouter.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

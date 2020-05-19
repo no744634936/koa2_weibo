@@ -1,65 +1,66 @@
-这是一个自己配置的属于自己的脚手架
-
-因为上一次写cms系统的时候，是从零开始配置各种文件.
-还必须手动ctrl 加 alt 加 n 来开启app.js很麻烦，
-所以这次使用
-koa脚手架来快速生成项目
-端口在 bin/www文件里的
-var port = normalizePort(process.env.PORT || '3000');
-可以用更改端口
+login.html 跟 register.html 文件里面都有防抖功能
 
 
+防抖的原理就是：
+你尽管触发事件，但是我一定在事件触发 n 秒后才执行，
+如果你在一个事件触发的 n 秒内又触发了这个事件，
+那我就以新的事件的时间为准，n 秒后才执行，
+总之，就是要等你触发完事件 n 秒内不再触发事件，我才执行，真是任性呐!
 
-npm install -g koa-generator (全局安装一个电脑只需要安装一次。)
-
-koa2 -e koa2_weibo      (-e 表示用的是ejs模板引擎koa2_weibo　是项目名。)
-
-npm install
+------------------------------------------------------------------------------
 
 
 
-感觉ejs难用，所有删除ejs 使用art-template 模板引擎
-
-npm uninstall ejs --save
 
 
-app.js 文件里删掉这俩个部分
-
-const views = require('koa-views')
-
-app.use(views(__dirname + '/views', {
-  extension: 'ejs'
-}))
+login.html 跟 register.html 文件
+通过jquery来向后台请求跟发送用户输入的数据。
 
 
-导入art-template模板
 
 
-----------------------------------------------------------
-配置环境
 
-npm install --save-dev cross-env
+使用sequelize ，依次按顺序看完这几个文件。
 
-在package.json 里面将
+src/conf/env.js             设置环境变量
 
-    "dev": "./node_modules/.bin/nodemon bin/www",
-    "prd": "pm2 start bin/www",
+src/conf/conf.js            放入数据库跟redis的配置信息
 
-    改成
+src/db/seq.js               建立sequelize的实例，传入数据库配置信息
 
-    "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon bin/www",
-    "prd": "cross-env NODE_ENV=production pm2 start bin/www",
+src/db/types.js              封装sequelize的数据类型，写表的结构时更方便
+
+src/db/tables/user_table.js  写表的结构
+
+src/db/create_table.js        创建表
+
+------------------------------------------------------
+
+//写login 跟 register的路由
+src\routes\api\user.js
 
 
-至于怎么用，后面会解释。
+//写login 跟 register的controller
+src\controllers\user\UserApiController.js
 
-调整一下文件结构 将 public，controller， model，view，route app.js 文件夹放入src文件夹里
 
-然后将 bin/www 文件里的
-var app = require('../app');
+//写login 跟 register的model
+src\models\UserModel.js
 
-改为
 
-var app = require('../src/app');
+//格式化信息,从数据库里取出的头像数据是null的时候，给他默认加一个头像的url。
+  （用户注册时如果没有上传头像，就默认加一个头像的写法比较好。而不是在取出数据之后再加默认的头像）
+src\models\_format.js
 
-localhost:3000/ 运行的就是app.js这个文件。
+
+//常量都放在一个集合里面去
+src\conf\constant.js
+
+
+//写一个class来让api输出的内容有一个规范。因为是api所以需要一个错误code或者成功code
+src\controllers\user\ApiResultFormat.js
+
+
+//把所有api请求失败的信息都放到 一个文件里面
+src\conf\errorInfo.js
+
