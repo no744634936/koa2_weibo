@@ -4,5 +4,8 @@
  */
 
  module.exports={
-     user_name_exist_info:{errnum:10003,message:"用户名不存在"}
+
+     user_name_exist_info:{errnum:10001,message:"用户名已存在"},
+     user_name_not_exist_info:{errnum:10002,message:"用户名不存在"},
+     register_failed_info:{errnum:10003,message:"注册用户失败"}
  }

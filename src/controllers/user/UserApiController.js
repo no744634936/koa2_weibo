@@ -3,8 +3,14 @@
 const userModel=require("../../models/UserModel.js")
 const {Success,Error}=require("./ApiResultFormat.js")
 const{
-    user_name_exist_info
+    user_name_exist_info,
+    user_name_not_exist_info,
+    register_failed_info,
 }=require("../../conf/errorInfo.js")
+const docrypto=require("../../my_tools/cryp.js")
+
+
+
 
 class UserApiController{
     /** 
@@ -17,27 +23,40 @@ class UserApiController{
 
         if(userInfo){
             //用户名存在
-
-            //返回的数据就是{errnum:0,data:{xxxxxxxxxxxxxx}}
-            // ctx.body={
-            //     errnum:0,data:{xxxxxxxxxxxxxx}
-            // }
+            //ctx.body={xxxxxxx} 是api返回数据的方式
             ctx.body= new Success(userInfo);
         }else{
             //用户名不存在
-            // return new Error({
-            //     errnum:10003,
-            //     message:"用户名不存在"
-            // })
-            //返回的数据就是{errnum:10003,message:"用户名不存在"}
-            //由于存在很多api请求错误信息，所以要把错误信息抽出来，放进一个文件夹里去。
-            // ctx.body={
-            //     errnum:10003,message:"用户名不存在"
-            // }
+            ctx.body=new Error(user_name_not_exist_info)
+        }
+    }
 
+    register=async(ctx,next)=>{
+        let {userName,password,gender}=ctx.request.body
+        console.log({userName,password,gender});
+        
+        let  userInfo= await userModel.getUserInfo(userName);
+        if(userInfo){
+            //用户名已存在
             ctx.body=new Error(user_name_exist_info)
         }
 
+        //创建数据的时候经常用try catch来做，因为有可能出错
+        try {
+
+            //在这里可以不传入nickName，虽然createUser方法的object里有nickName这个参数
+            userModel.createUser({
+                userName,
+                password:docrypto(password),
+                gender
+            })
+            ctx.body=new Success()   //返回 {errnum:0,{}}
+        } catch (error) {
+            //打印错误日志的时候会讲到
+            console.error(error.message,error.stack);
+
+            ctx.body=new Error(register_failed_info)
+        }
     }
 }
 

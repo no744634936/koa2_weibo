@@ -9,8 +9,7 @@ const UserApiController=require("../../controllers/user/UserApiController.js")
 
 router.prefix("/api/user")
 
-
-router.post("register",)
+router.post("/register",UserApiController.register)
 
 router.post("/isExist",UserApiController.isExist)
 

@@ -14,8 +14,7 @@
       * @param {string} password 密码
       */
     getUserInfo=async(userName,password)=>{
-        console.log(userName);
-        
+
         //查询条件
         let whereOpt={
             userName:userName
@@ -38,6 +37,26 @@
 
         //找到了记录，并格式化数据
         return formatUserImg(result.dataValues);
+    }
+
+    /**
+     * @description 创建用户
+     * @param {string} userName  用户名
+     * @param {string} password  密码
+     * @param {number} gender    性别
+     * @param {string} nickName  昵称
+     */
+    createUser=async({userName,password,gender=3,nickName})=>{
+        let result=await User.create({
+            userName,
+            password,
+            nickName: nickName ? nickName: userName,
+            gender,
+        })
+        console.log(result.dataValues);
+        return result.dataValues
+   
+        
     }
  }
 
