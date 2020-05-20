@@ -18,11 +18,11 @@ if(isPrd){
     //线上环境下的配置
 
 
-    // let REDIS_CONF={
+    // REDIS_CONF={
     //     。。。
     // }
     
-    // let MYSQL_CONF={
+    // MYSQL_CONF={
     //     。。。
     // }
 }

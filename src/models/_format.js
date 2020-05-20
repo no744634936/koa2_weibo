@@ -27,7 +27,6 @@ module.exports={
         if(list instanceof Array){
             return list.map(_formatUserPicture)
         }
-        r
         //单个对象时
         return _formatUserPicture(list)
     }

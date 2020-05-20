@@ -7,6 +7,7 @@ const{
     user_name_not_exist_info,
     register_failed_info,
     data_validataion_failed,
+    login_failed_info,
 }=require("../../conf/errorInfo.js")
 
 const docrypto=require("../../my_tools/cryp.js")
@@ -20,8 +21,9 @@ class UserApiController{
     isExist=async(ctx,next)=>{
 
         let {userName}=ctx.request.body
-        let userInfo= await userModel.getUserInfo(userName);
-
+        let userInfo=await userModel.getUserInfo(userName);
+        console.log(userInfo);
+        
         if(userInfo){
             //用户名存在
             //ctx.body={xxxxxxx} 是api返回数据的方式
@@ -42,7 +44,7 @@ class UserApiController{
 
         let {userName,password,gender}=ctx.request.body
         
-        let  userInfo= await userModel.getUserInfo(userName);
+        let  userInfo=await userModel.getUserInfo(userName);
         if(userInfo){
             //用户名已存在
             ctx.body=new Error(user_name_exist_info)
@@ -63,6 +65,25 @@ class UserApiController{
             console.error(error.message,error.stack);
 
             ctx.body=new Error(register_failed_info)
+        }
+    }
+
+    doLogin=async(ctx,next)=>{
+        let {userName,password}=ctx.request.body
+        let userInfo=await userModel.getUserInfo(userName,docrypto(password));
+        console.log(ctx.session.userInfo);
+        
+        if(userInfo){
+            
+            if(ctx.session.userInfo== null){
+                console.log(userInfo);
+                
+                ctx.session.userInfo=userInfo
+            }
+            ctx.body= new Success();
+        }else{
+            //登录失败
+            ctx.body=new Error(login_failed_info)
         }
     }
 }

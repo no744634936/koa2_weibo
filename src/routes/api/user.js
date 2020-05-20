@@ -13,6 +13,8 @@ router.post("/register",UserApiController.register)
 
 router.post("/isExist",UserApiController.isExist)
 
+router.post("/login",UserApiController.doLogin)
+
 module.exports=router
 
 //每次建立了路由就要在app.js里面注册一下。

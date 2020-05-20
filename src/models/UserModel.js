@@ -14,7 +14,6 @@
       * @param {string} password 密码
       */
     getUserInfo=async(userName,password)=>{
-
         //查询条件
         let whereOpt={
             userName:userName
@@ -34,7 +33,6 @@
             //没找到
             return result
         }
-
         //找到了记录，并格式化数据
         return formatUserImg(result.dataValues);
     }
