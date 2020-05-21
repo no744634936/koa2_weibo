@@ -1,35 +1,12 @@
-http://localhost:3000/login
+使用这个项目的时候记得打开mysql 数据库跟redis
 
 
-一个方法使用了一个异步(async)方法，那么获取返回值时一定要用await才行。
-
-------------------------------------------------
-userModel.getUserInfo() 是一个异步函数，尽管它返回的不是一个promise而是一个object
-也必须使用await 来取这个 返回的object
-
-    doLogin=async(ctx,next)=>{
-        let {userName,password}=ctx.request.body
-        let userInfo=await userModel.getUserInfo(userName,docrypto(password));
-        console.log(userInfo);
-        
-        if(userInfo){
-            if(ctx.session.userInfo==null){
-                ctx.session.userInfo=userInfo
-            }
-            ctx.body= new Success();
-        }else{
-            //登录失败
-            ctx.body=new Error(login_failed_info)
-        }
-    }
+将验证抽离出来做中间件，不要把验证放在controller里面，而是把验证放在，路由中。
 
 
+修改了src\validator\validate_userInfo.js 文件
 
-------------------------------------------------
-
-
-登录功能，登录成功后将用户数据放入redis缓存里面去。
+我将数据验证做成了一个中间件 validate_userInfo 放到了 /register路由里面
 
 
-//如果是登陆状态就提示，您已成功登录，请直接访问首页
-
+router.post("/register",validate_userInfo,UserApiController.register)

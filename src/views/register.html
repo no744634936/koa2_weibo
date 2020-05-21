@@ -54,6 +54,7 @@
                         userName
                     }, function(data, status) {
                         $spanUserNameInfo.show()
+                        
                         if (data.errnum==0) {
                             $spanUserNameInfo.text('用户名已存在！')
                             isUserNameExist = true
@@ -112,7 +113,7 @@
                     userName,
                     password,
                     gender
-                }, function(err, data) {
+                }, function(err, status) {
                     if (err) {
                         alert(err)
                         return

@@ -11,8 +11,6 @@ const{
 }=require("../../conf/errorInfo.js")
 
 const docrypto=require("../../my_tools/cryp.js")
-const validate_userInfo=require("../../validator/validate_userInfo.js")
-
 
 class UserApiController{
     /** 
@@ -22,8 +20,6 @@ class UserApiController{
 
         let {userName}=ctx.request.body
         let userInfo=await userModel.getUserInfo(userName);
-        console.log(userInfo);
-        
         if(userInfo){
             //用户名存在
             //ctx.body={xxxxxxx} 是api返回数据的方式
@@ -35,13 +31,6 @@ class UserApiController{
     }
 
     register=async(ctx,next)=>{
-        //校验用户输入的数据，如果验证没通过返回的是一个err
-        let err=validate_userInfo(ctx.request.body)
-        if(err){
-            ctx.body=new Error(data_validataion_failed)
-            return // 程序不在执行
-        }
-
         let {userName,password,gender}=ctx.request.body
         
         let  userInfo=await userModel.getUserInfo(userName);
@@ -74,10 +63,8 @@ class UserApiController{
         console.log(ctx.session.userInfo);
         
         if(userInfo){
-            
             if(ctx.session.userInfo== null){
                 console.log(userInfo);
-                
                 ctx.session.userInfo=userInfo
             }
             ctx.body= new Success();
