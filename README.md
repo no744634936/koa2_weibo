@@ -10,3 +10,12 @@
 
 
 router.post("/register",validate_userInfo,UserApiController.register)
+
+
+---------------------------------------------------------------------------
+制作登录验证的中间件。放到index.js 文件里面了
+
+
+1, 查看 src\validator\loginCheck.js
+2, 查看 src\routes\index.js
+3, 查看 src\views\login.html

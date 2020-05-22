@@ -10,4 +10,5 @@
      register_failed_info:{errnum:10003,message:"注册用户失败"},
      data_validataion_failed:{errnum:10004,message:"数据格式验证失败"},
      login_failed_info:{errnum:10005,message:"登录失败"},
+     login_check_failed:{errnum:10006,message:"未登录"},
  }

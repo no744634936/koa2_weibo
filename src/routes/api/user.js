@@ -8,6 +8,7 @@ const router=require("koa-router")()
 const UserApiController=require("../../controllers/user/UserApiController.js")
 const validate_userInfo=require("../../validator/validate_userInfo.js")
 
+
 router.prefix("/api/user")
 
 router.post("/register",validate_userInfo,UserApiController.register)
