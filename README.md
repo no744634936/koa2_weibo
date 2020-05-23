@@ -11,8 +11,8 @@
 
 //登录之后就会生成一个cookie。
 
-//然后我拿着这个cookie 绕过登录验证，使用delete路由，来删除添加的测试数据。
+//然后我拿着这个cookie 来登录验证，使用delete_test_data路由，来删除添加的测试数据。
 
-//所以我在 src\routes\api\user.js 文件里添加了一个delete路由，
+//所以我在 src\routes\api\user.js 文件里添加了一个delete_test_data路由，
 
 //这个路由是在test环境下，而且必须登录之后才能执行，
