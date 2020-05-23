@@ -11,4 +11,5 @@
      data_validataion_failed:{errnum:10004,message:"数据格式验证失败"},
      login_failed_info:{errnum:10005,message:"登录失败"},
      login_check_failed:{errnum:10006,message:"未登录"},
+     delete_test_data_failed:{errnum:10007,message:"删除测试数据失败"},
  }

@@ -53,8 +53,19 @@
         })
         console.log(result.dataValues);
         return result.dataValues
-   
-        
+    }
+
+    /**
+     * @ 删除测试register接口时，放到数据库里的测试数据。
+     *   我这里使用物理删除的方法。正式开发的时候最好使用 标记删除法。(is_deleted 等于1)
+     * @param {string} userName 用户名
+     */
+    deleteTestData=async(userName)=>{
+        let result=await User.destroy({
+            where:{userName}
+        })
+        //result 表示删除的行数
+        return result>0
     }
  }
 
