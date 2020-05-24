@@ -15,6 +15,12 @@ class UserViewController{
     register=async(ctx,next)=>{
         await ctx.render("register.html");
     }
+
+    setting=async(ctx,next)=>{
+        //用户的基本信息，注意如果没有更改头像，之里面包含了一个默认头像连接，
+        console.log(ctx.session.userInfo);
+        await ctx.render("setting.html",ctx.session.userInfo)
+    }
 }
 
 module.exports= new UserViewController();

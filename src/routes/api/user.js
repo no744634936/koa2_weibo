@@ -17,9 +17,11 @@ router.post("/isExist",UserApiController.isExist)
 
 router.post("/login",UserApiController.doLogin)
 
-
 //删除添加的测试数据 的路由
 router.post("/delete_test_data",loginRedirect,UserApiController.deleteTestData)
+
+
+
 
 
 
