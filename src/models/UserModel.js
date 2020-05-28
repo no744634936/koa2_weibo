@@ -67,6 +67,44 @@
         //result 表示删除的行数
         return result>0
     }
+
+    /**
+     * @param {object} param0 要更改的内容 {newPassword,newNickName,newPicture,NewCity}
+     * @param {object} param1 {userName,password}
+     */
+    updateUserInfo=async({newPassword,newNickName,newPicture,newCity},{userName,password})=>{
+        //javascript 的参数就算是写了也不一定都要传
+        //设置修改的内容
+
+        let updateData={}
+        if(newPassword){
+            updateData.password=newPassword
+        }
+        if(newNickName){
+            updateData.nickName=newNickName
+        }
+        if(newPicture){
+            updateData.picture=newPicture
+        }
+        if(newCity){
+            updateData.city=newCity
+        }
+
+        //查询条件,原本的userName 跟 password
+        let whereData={
+            userName:userName
+        }
+        if(password){
+            whereData.password=password
+        }
+
+        //执行修改
+        let result=await User.update(updateData,{
+            where:whereData
+        })
+        //修改成功会返回修改的行数
+        return result[0]>0
+    }
  }
 
  module.exports=new UserModel();

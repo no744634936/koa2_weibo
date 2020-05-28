@@ -9,6 +9,7 @@ const{
     data_validataion_failed,
     login_failed_info,
     delete_test_data_failed,
+    change_Info_failed,
 }=require("../../conf/errorInfo.js")
 
 const docrypto=require("../../my_tools/cryp.js")
@@ -93,8 +94,38 @@ class UserApiController{
             }
         }
     }
+    editUserInfo=async(ctx,next)=>{
+        console.log("haha");
+        
+        let {nickName,city,picture}=ctx.request.body
+        
+        let {userName}=ctx.session.userInfo
+        if(!nickName){
+            nickName=userName
+        }
 
+        let content={
+            newNickName:nickName,
+            newCity:city,
+            newPicture:picture,
+        }
+        let condition={userName}
 
+        let result=await userModel.updateUserInfo(content,condition)
+        console.log(result);
+        
+        
+        if(result){
+            //如果修改成功，session里面的信息也得改
+            Object.assign(ctx.session.userInfo,{
+                nickName:nickName,
+                city:city,
+                picture:picture,
+            })
+            return new Success()
+        }
+        ctx.body=new Error(change_Info_failed)
+    }
 }
 
 module.exports=new UserApiController();
