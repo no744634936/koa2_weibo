@@ -9,9 +9,12 @@ const index = require('./routes/index')
 
 const userViewRouter=require('./routes/veiw/user.js')
 const userApiRouter=require("./routes/api/user.js")
+const utilsApiRouter=require("./routes/utils.js")
+
 const session=require("koa-generic-session")
 const redisStore=require("koa-redis")
 const {REDIS_CONF}=require("./conf/conf.js")
+const koaStatic=require('koa-static')
 
 const path=require('path')
 
@@ -25,7 +28,15 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(koaStatic(__dirname + '/public'))
+
+//这种写法是错误的
+// app.use(koaStatic(__dirname + '../uploadPicture'))
+//path 的用法
+console.log(__dirname + '../uploadPicture');                //C:\Users\zhang\Desktop\koa2_weibo\src../uploadPicture
+console.log(path.join(__dirname,"..","uploadPicture"));     //C:\Users\zhang\Desktop\koa2_weibo\uploadPicture
+
+app.use(koaStatic(path.join(__dirname,"..","uploadPicture")))
 
 render(app, {
     root: path.join(__dirname, 'views'),   //视图的位置
@@ -58,6 +69,7 @@ console.log(`${REDIS_CONF.host}:${REDIS_CONF.port}`);
 app.use(index.routes(), index.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods())
+app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

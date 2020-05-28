@@ -51,9 +51,9 @@ const {login_failed_info}=require("../conf/errorInfo.js")
 
 
 
-  // 这两个登录验证功能都差不多，用loginRedirect 这个功能就可以了
-  //这里为了学习，所以写一下。
-
+  // 这两个登录验证功能都差不多，
+  // 与api相关的验证用loginCheck 。与页面相关的就使用 loginRedirect
   module.exports={
-    loginRedirect
+    loginRedirect,
+    loginCheck
   }

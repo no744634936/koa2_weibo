@@ -70,12 +70,19 @@ $(function() {
     var $filePicture = $('#file-picture')
     $filePicture.change(function (e) {
         var file = $filePicture[0].files[0]
+
+        // ajax.upload 这个方法是自己定义的，查看my-ajax.js 文件。感觉好麻烦啊这样写。
         ajax.upload('/api/utils/upload', file, function(err, data) {
+            console.log(file);
+            console.log(err);
+            console.log(data);
             if (err) {
                 alert(err)
                 return
             }
             // 成功
+            console.log(data.url);
+            
             $imgPicture.attr('src', data.url)
         })
     })

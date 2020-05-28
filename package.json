@@ -12,6 +12,8 @@
     "ajv": "^6.12.2",
     "art-template": "^4.13.2",
     "debug": "^4.1.1",
+    "formidable-upload-koa": "^1.0.1",
+    "fs-extra": "^9.0.0",
     "koa": "^2.7.0",
     "koa-art-template": "^1.1.1",
     "koa-bodyparser": "^4.2.1",
