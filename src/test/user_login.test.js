@@ -65,11 +65,39 @@ test("登录应该成功",async()=>{
     COOKIE=response.header["set-cookie"].join(";");
 })
 
+//修改localhost:3000/setting 页面的基本信息
+test("修改基本信息应该成功",async()=>{
+    let response=await server
+    .patch("/api/user/changeInfo")
+    .send({
+        nickName:"a_测试昵称",
+        city:"测试城市",
+        picture:"/test.jpg"
+    })
+    .set("cookie",COOKIE)
+    expect(response.body.errnum).toBe(0)
+})
+
+//修改密码
+test("修改基本信息应该成功",async()=>{
+    let response=await server
+    .patch("/api/user/changePassword")
+    .send({
+        password:password,
+        newPassword: "test_password"
+    })
+    .set("cookie",COOKIE)
+    expect(response.body.errnum).toBe(0)
+})
+
+
+
+
 
 //测试完register后，数据库里就会有一条testUser的测试数据，
 //接着我用这条测试数据的 userName,password 来登录，
 //登录之后就会生成一个cookie。
-//然后我拿着这个cookie 绕过登录验证，使用delete路由，来删除添加的测试数据。
+//然后我拿着这个cookie 来登录验证，使用delete路由，来删除添加的测试数据。
 //所以我在 src\routes\api\user.js 文件里添加了一个delete路由，
 //这个路由是在test环境下，而且必须登录之后才能执行，
 
@@ -85,4 +113,16 @@ test("删除用户应该成功",async()=>{
 test("删除之后，测试的用户名应该不存在",async()=>{
     let response=await server.post("/api/user/isExist").send({userName})
     expect(response.body.errnum).not.toBe(0)
+})
+
+
+
+//只有在删除测试结束之后，在测试 退出登录功能。
+//因为删除测试有个登录验证，session必须存在，所以必须将session的删除放在最后执行
+
+test("退出登录应该成功",async()=>{
+    let response=await server
+    .post("/api/user/logout")
+    .set("cookie",COOKIE)
+    expect(response.body.errnum).toBe(0)
 })

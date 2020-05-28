@@ -112,7 +112,6 @@ class UserApiController{
         let condition={userName}
 
         let result=await userModel.updateUserInfo(content,condition)
-        console.log(result);
         
         
         if(result){
@@ -141,7 +140,7 @@ class UserApiController{
             }
         )
 
-        if(reuslt){
+        if(result){
             ctx.body=new Success()
             return 
         }
