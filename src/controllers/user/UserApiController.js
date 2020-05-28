@@ -122,9 +122,35 @@ class UserApiController{
                 city:city,
                 picture:picture,
             })
-            return new Success()
+            ctx.body= new Success()
+            return
         }
         ctx.body=new Error(change_Info_failed)
+    }
+
+    changePassword=async(ctx,next)=>{
+        let {password,newPassword}=ctx.request.body
+        let {userName}=ctx.session.userInfo
+        let result= await userModel.updateUserInfo(
+            {
+                newPassword:docrypto(newPassword)
+            },
+            {
+                userName,
+                password:docrypto(password)
+            }
+        )
+
+        if(reuslt){
+            ctx.body=new Success()
+            return 
+        }
+        ctx.body=new Error(change_Info_failed)
+    }
+
+    logout=async(ctx,next)=>{
+        delete(ctx.session.userInfo)
+        ctx.body=new Success()
     }
 }
 

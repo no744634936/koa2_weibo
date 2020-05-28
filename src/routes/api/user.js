@@ -23,7 +23,9 @@ router.post("/delete_test_data",loginRedirect,UserApiController.deleteTestData)
 //patch 是修改的意思，补丁
 router.patch("/changeInfo",loginCheck,validate_userInfo,UserApiController.editUserInfo)
 
+router.patch("/changePassword",loginCheck,validate_userInfo,UserApiController.changePassword)
 
+router.post("/logout",UserApiController.logout)
 
 
 
