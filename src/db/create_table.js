@@ -6,7 +6,7 @@
 
 const seq=require("./seq.js")
 
-require("./tables/user_table.js")
+require("./relation.js")
 
 //测试链接
 seq.authenticate().then(()=>{
