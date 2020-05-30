@@ -4,6 +4,7 @@ const {Success,Error}=require("./ApiResultFormat.js")
 const{
     create_weibo_failed,
 }=require("../../conf/errorInfo.js")
+const xss=require("xss")
 
 
    
@@ -18,7 +19,7 @@ class WeiboController{
         try{
             let weibo=await WeiboModel.createWeibo({
                 userId,
-                content,
+                content:xss(content),
                 image
             })
             //要将插入数据库的数据返回给前端，前端也许要拿着个这数据做些什么
