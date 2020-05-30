@@ -5,10 +5,13 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const render = require('koa-art-template')
-const index = require('./routes/index')
 
 const userViewRouter=require('./routes/veiw/user.js')
 const userApiRouter=require("./routes/api/user.js")
+
+const weiboViewRouter=require('./routes/veiw/weibo.js')
+const weiboApiRouter=require('./routes/api/weibo.js')
+
 const utilsApiRouter=require("./routes/utils.js")
 
 const session=require("koa-generic-session")
@@ -29,12 +32,6 @@ app.use(bodyparser({
 app.use(json())
 app.use(logger())
 app.use(koaStatic(__dirname + '/public'))
-
-//这种写法是错误的
-// app.use(koaStatic(__dirname + '../uploadPicture'))
-//path 的用法
-console.log(__dirname + '../uploadPicture');                //C:\Users\zhang\Desktop\koa2_weibo\src../uploadPicture
-console.log(path.join(__dirname,"..","uploadPicture"));     //C:\Users\zhang\Desktop\koa2_weibo\uploadPicture
 
 app.use(koaStatic(path.join(__dirname,"..","uploadPicture")))
 
@@ -62,14 +59,13 @@ app.use(session({
     })
 }))
 
-console.log(`${REDIS_CONF.host}:${REDIS_CONF.port}`);
-
 
 // routes
-app.use(index.routes(), index.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods())
 app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods())
+app.use(weiboViewRouter.routes(), weiboViewRouter.allowedMethods())
+app.use(weiboApiRouter.routes(), weiboApiRouter.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
