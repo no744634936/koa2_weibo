@@ -13,7 +13,7 @@ npm install xss --save
 WeiboController 的 create方法里对content数据使用xss方法就可以了。
 
 
-数据库里的script 代码就会变成这样
+数据库里的script 代码就会变成这样 包含转义字符串
  "&lt;script&gt;alert(document.cookie)&lt;/script&gt;"
 
 
