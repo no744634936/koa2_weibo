@@ -31,7 +31,15 @@ class WeiboController{
             console.error(ex.message,ex.stack)
             ctx.body=new Error(create_weibo_failed)
         }
+    }
+    showMyProfile=async (ctx,next)=>{
+        let {userName}=ctx.session.userInfo
+        ctx.redirect(`/profile/${userName}`)
+    }
 
+    showProfile= async(ctx,next)=>{
+
+        await ctx.render("profile.html",{})
     }
 }
 
