@@ -5,9 +5,10 @@ const{
     create_weibo_failed,
 }=require("../../conf/errorInfo.js")
 const xss=require("xss")
+const UserModel=require("../../models/UserModel.js")
 
 
-   
+
 class WeiboController{
     showTopPage=async(ctx,next)=>{
         await ctx.render("index.html")
@@ -38,8 +39,44 @@ class WeiboController{
     }
 
     showProfile= async(ctx,next)=>{
+        let url_userName=ctx.params.userName
+        let session_userName=ctx.session.userInfo.userName
+        let current_userName=""
+        let userInfo=""
 
-        await ctx.render("profile.html",{})
+        //如果url里的名字跟session里的名字同名可以确定事本人了
+        let isMe=url_userName==session_userName
+        if(isMe){
+            userInfo=ctx.session.userInfo
+            current_userName=ctx.params.userName
+        }else{
+            //如果不是本人就根据url里的名字从数据库中取出这个用户的基本信息
+            userInfo=await UserModel.getUserInfo(url_userName)
+            current_userName=userInfo.userName
+        }
+
+        let pageNum=1
+        let pageSize=5
+        let result=await WeiboModel.get_weibo_by_userName(current_userName,pageNum,pageSize)
+        let weibo_list=result.weibo_list
+        let count=result.count
+        let isEmpty= weibo_list.length===0 ? true : false
+
+        // console.log("---");
+        console.log(weibo_list);
+        
+        
+        await ctx.render("profile.html",{
+            isEmpty,
+            blogList:weibo_list,
+            pageSize,
+            pageIndex: pageNum,
+            count,
+
+            userInfo,
+            isMe,
+        })
+
     }
 }
 

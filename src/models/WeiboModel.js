@@ -3,9 +3,13 @@
  * @author zhanghaifeng
  */
 
- //导入数据模型
-const {Weibo}=require("../db/tables/weibo.js")
-const {User}=require("../db/tables/user_table.js")
+//导入数据模型
+//不能这样单独的导入每个表，只能查询单个表，不能做连表查询
+// const {Weibo}=require("../db/tables/weibo.js")
+// const {User}=require("../db/tables/user_table.js")
+
+//要这样导入才能做连表查询
+const{Weibo,User}=require("../db/relation.js")
 
 class WeiboModel{
 
@@ -48,21 +52,40 @@ class WeiboModel{
             include:[
                 {
                     model:User,
-                    attributes:["userName","nickName,picture"],
+                    attributes:["userName","nickName","picture"],
                     //因为这是where表的查询条件所以要放到user表里面来
                     where:user_whereOpts
                 }
             ]
         })
 
-        console.log(weibo_list);
-        
+        // console.log(result);
+
+        //把微博得数据取出来
         let weibo_list=result.rows.map(row=>row.dataValues)
-        weibo_list=weio
+
+        // console.log(weibo_list);
+
+        //把user的信息也得取出来
+        weibo_list=weibo_list.map(item=>{
+            let user=item.user.dataValues
+            item.user=user
+            return item
+        })
+        
+        // console.log(weibo_list);
+        
+        return{
+            count:result.count,
+            weibo_list,
+        }
+        
     }
+
 }
 
-let test=new WeiboModel()
-test.get_weibo_by_userName("zhanghaifeng")
+// let test=new WeiboModel()
+// test.get_weibo_by_userName("zhanghaifeng")
 
-// module.exports=new WeiboModel()
+
+module.exports=new WeiboModel()

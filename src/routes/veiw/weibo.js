@@ -13,8 +13,6 @@ router.get("/",loginRedirect,Weibo.showTopPage)
 router.get("/profile",loginRedirect,Weibo.showMyProfile)
 
 //显示别人的个人主页
-router.get("/profile/:useName",loginRedirect,Weibo.showProfile)
-
-
+router.get("/profile/:userName",loginRedirect,Weibo.showProfile)
 
 module.exports=router
