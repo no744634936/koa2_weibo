@@ -1,6 +1,7 @@
 <%- include('layout/header', { title: '微博 - 个人主页', isNav: true, list: true })%>
 
 <div class="container margin-top-20">
+
 <div class="row">
     <!-- 左侧 -->
     <div class="col-8">
@@ -21,7 +22,7 @@
             <% if (count > blogList.length) { %>
                 <%- include('components/load-more', {
                     pageSize: pageSize,
-                    pageIndex: pageIndex,
+                    pageNum: pageNum,
                     count: count,
                     containerSelector: '#container-weibo-list',
                     api: '/api/profile/loadMore/' + userInfo.userName,
@@ -45,6 +46,6 @@
     </div>
 
 </div>
-</div>}
+</div>
 
 <%- include('layout/footer')%>

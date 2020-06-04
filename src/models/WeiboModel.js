@@ -45,7 +45,7 @@ class WeiboModel{
         //执行查询
         let result=await Weibo.findAndCountAll({
             limit:pageSize, //每页多少条
-            offset:(pageNum-1)*10, //跳过多少条
+            offset:(pageNum-1)*pageSize, //跳过多少条
             order:[
                 ["id","desc"], //根据id 倒序排列
             ],

@@ -6,6 +6,9 @@ const{
 }=require("../../conf/errorInfo.js")
 const xss=require("xss")
 const UserModel=require("../../models/UserModel.js")
+const template = require('art-template');
+const path=require("path")
+const {formatDateTime}=require("../../models/_format.js")
 
 
 
@@ -56,9 +59,10 @@ class WeiboController{
         }
 
         let pageNum=1
-        let pageSize=5
+        let pageSize=3
         let result=await WeiboModel.get_weibo_by_userName(current_userName,pageNum,pageSize)
-        let weibo_list=result.weibo_list
+        
+        let weibo_list=formatDateTime(result.weibo_list)
         let count=result.count
         let isEmpty= weibo_list.length===0 ? true : false
 
@@ -70,7 +74,7 @@ class WeiboController{
             isEmpty,
             blogList:weibo_list,
             pageSize,
-            pageIndex: pageNum,
+            pageNum: pageNum,
             count,
 
             userInfo,
@@ -78,6 +82,39 @@ class WeiboController{
         })
 
     }
+
+    test=()=>{
+        let string=path.join(__dirname,"..","..","views","components","blog-list.html")
+
+        var html = template(string, {
+            testValue: 'zhanghaifeng'
+        });
+        console.log(html);
+        
+    }
+
+    loadMore=async(ctx,next)=>{
+        let {userName,pageNum}=ctx.params
+        // 字符串转成数字
+        pageNum=parseInt(pageNum)
+        
+        let pageSize=3
+        let result=await WeiboModel.get_weibo_by_userName(userName,pageNum,pageSize)
+        
+        let file_path=path.join(__dirname,"..","..","views","components","blog-list.html")
+        let html = template(file_path, {
+            blogData:result.weibo_list
+        });
+
+        ctx.body={
+            html:html,
+            pageNum:pageNum
+        }
+    }
+
 }
+
+// let a=new WeiboController();
+// a.loadMore().then(data=>console.log(data));
 
 module.exports=new WeiboController();

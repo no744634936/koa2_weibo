@@ -1,19 +1,43 @@
-
-输入
-http://localhost:3000/profile
-跳转到
-http://localhost:3000/profile/:userName
+加载更多，后端渲染，后端根据数据返回一个带数据的html字符串
+前端显示这个字符串
+前端渲染的意思是说，后端将数据传给前端，前端在将数据放到html里面。
 
 
-如果，连接里的userName等于session里的userName，那么 查看的是自己的主页，
-如果，连接里的userName不等于session里的userName 那么查看的就是他人的主页
-
-g
-根据userName取出blog数据，与user数据。这里用到了联表查询。
+点击加载更多，触发路由
+localhost:3000/profile/loadMore/:userName/:pageNum
 
 
-//测试用连接
-注册两个用户zhanghaifeng 跟 wang，用这两个用户各发几条微博。
-然后输入这连两个网址查看
-http://localhost:3000/profile/zhanghaifeng
-http://localhost:3000/profile/wang
+
+--------------------------------
+
+对时间戳的处理有两种方法，
+一种就是在前端页面使用art-template提供的过滤器
+像这样
+{{blog.createdAt|dateFormat}} 
+但是，
+当我想将一个html文件读取到后台，然后将数据放入html，最后返回前端的时候。
+
+就像这样
+let file_path=path.join(__dirname,"..","..","views","components","blog-list.html")
+
+var html = template(file_path, {
+    testValue: 'zhanghaifeng'
+});
+
+过滤器无法被读取到后端。
+
+
+blog-list.html文件里有一个过滤器 
+{{blog.createdAt|dateFormat}} 
+来将时间戳转换成一定格式的字符串
+但是
+这个template() 方法无法读取blog-list.html文件里的过滤器。
+所以对时间的处理要在后端解决。
+
+
+
+
+查看与 loadmore 路由有关的个种方法与页面
+
+//load more function
+router.get("/profile/loadMore/:userName/:pageNum",loginCheck,WeiboController.loadMore)

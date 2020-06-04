@@ -8,8 +8,17 @@ const {loginRedirect,loginCheck}=require("../../validator/loginCheck.js")
 const WeiboController=require("../../controllers/user/WeiboController.js")
 const validate_weibo=require("../../validator/validate_weibo.js")
 
-router.prefix("/api/weibo")
-router.post("/create",loginCheck,validate_weibo,WeiboController.create)
+router.prefix("/api")
 
+router.get('/test', async (ctx, next) => {
+    ctx.body = {
+      title: {data:"hahah"}
+    }
+})
+
+router.post("/weibo/create",loginCheck,validate_weibo,WeiboController.create)
+
+//load more function
+router.get("/profile/loadMore/:userName/:pageNum",loginCheck,WeiboController.loadMore)
 
 module.exports=router

@@ -5,7 +5,6 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const render = require('koa-art-template')
-const sd = require('silly-datetime');
 
 const userViewRouter=require('./routes/veiw/user.js')
 const userApiRouter=require("./routes/api/user.js")
@@ -40,9 +39,6 @@ render(app, {
     root: path.join(__dirname, 'views'),   //视图的位置
     extname: '.html', //后缀名
     debug: process.env.NODE_ENV !== 'production',  //是否开启调试模式
-    dateFormat: dateFormat=(value)=>{
-        return sd.format(value, 'YYYY-MM-DD HH:mm');
-    }
 });
 
 
