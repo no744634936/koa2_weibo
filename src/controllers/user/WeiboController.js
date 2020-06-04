@@ -67,7 +67,7 @@ class WeiboController{
         let isEmpty= weibo_list.length===0 ? true : false
 
         // console.log("---");
-        console.log(weibo_list);
+        //console.log(weibo_list);
         
         
         await ctx.render("profile.html",{
@@ -105,7 +105,7 @@ class WeiboController{
         let html = template(file_path, {
             blogData:result.weibo_list
         });
-
+        
         ctx.body={
             html:html,
             pageNum:pageNum
