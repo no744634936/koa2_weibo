@@ -6,7 +6,7 @@ const{
 }=require("../../conf/errorInfo.js")
 const xss=require("xss")
 const UserModel=require("../../models/UserModel.js")
-const template = require('art-template');
+const template_art = require('art-template');
 const path=require("path")
 const {formatDateTime}=require("../../models/_format.js")
 
@@ -89,7 +89,7 @@ class WeiboController{
         var html = template(string, {
             testValue: 'zhanghaifeng'
         });
-        console.log(html);
+        // console.log(html);
         
     }
 
@@ -102,10 +102,46 @@ class WeiboController{
         let result=await WeiboModel.get_weibo_by_userName(userName,pageNum,pageSize)
         
         let file_path=path.join(__dirname,"..","..","views","components","blog-list.html")
-        let html = template(file_path, {
+        let html = template_art(file_path, {
             blogData:result.weibo_list
         });
         
+        ctx.body={
+            html:html,
+            pageNum:pageNum
+        }
+    }
+
+    showSquare=async(ctx,next)=>{
+        //只取出第一页数据
+        let pageNum=1
+        let pageSize=10
+        let result=await WeiboModel.get_all_weibo({pageNum,pageSize})
+        let isEmpty= result.length===0 ? true : false
+
+        //对时间的处理formatDateTime应该放在model层来做的
+        await ctx.render("square.html",{
+            isEmpty,
+            blogList:formatDateTime(result.weibo_list),
+            pageSize,
+            pageNum: pageNum,
+            count:result.count
+        })
+    }
+
+
+    square_loadMore=async(ctx,index)=>{
+        let {pageNum}=ctx.params
+        // 字符串转成数字
+        pageNum=parseInt(pageNum);
+        let pageSize=10
+        let result=await WeiboModel.get_all_weibo({pageNum,pageSize})
+
+        let file_path=path.join(__dirname,"..","..","views","components","blog-list.html")
+        let html = template_art(file_path, {
+            blogData:result.weibo_list
+        });
+
         ctx.body={
             html:html,
             pageNum:pageNum

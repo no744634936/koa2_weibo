@@ -10,15 +10,13 @@ const validate_weibo=require("../../validator/validate_weibo.js")
 
 router.prefix("/api")
 
-router.get('/test', async (ctx, next) => {
-    ctx.body = {
-      title: {data:"hahah"}
-    }
-})
-
 router.post("/weibo/create",loginCheck,validate_weibo,WeiboController.create)
 
 //load more function
 router.get("/profile/loadMore/:userName/:pageNum",loginCheck,WeiboController.loadMore)
+
+
+//广场页的loadmore
+router.get("/square/loadMore/:pageNum",loginCheck,WeiboController.square_loadMore)
 
 module.exports=router

@@ -10,6 +10,8 @@
 
 //要这样导入才能做连表查询
 const{Weibo,User}=require("../db/relation.js")
+const {redis_set,redis_get}=require("../cache/_redis.js")
+
 
 class WeiboModel{
 
@@ -35,7 +37,7 @@ class WeiboModel{
 
     get_weibo_by_userName=async(userName,pageNum=1,pageSize=10)=>{
 
-        //拼接查询条件,这个是user表的查询条件
+        //拼接查询条件,这个是user表的查询条件，如果不穿用户名就查出所有用户的微博
         let user_whereOpts={}
         if(userName){
            user_whereOpts.userName=userName
@@ -64,7 +66,7 @@ class WeiboModel{
         //把微博得数据取出来
         let weibo_list=result.rows.map(row=>row.dataValues)
 
-        // console.log(weibo_list);
+        console.log(weibo_list);
 
         //把user的信息也得取出来
         weibo_list=weibo_list.map(item=>{
@@ -80,6 +82,24 @@ class WeiboModel{
             weibo_list,
         }
         
+    }
+
+    get_all_weibo=async({pageNum,pageSize})=>{
+        let userName=null;
+        const  REDIS_KEY_PREFIX="weibo:squarePage"
+        let key=`${REDIS_KEY_PREFIX}${pageNum}_${pageSize}`
+        
+        //有缓存的时候　就从缓存里面取出来
+        let cacheResult=await redis_get(key)
+        if(cacheResult!==null){
+            return cacheResult
+        }
+        
+        //没有缓存的时候，读取数据库，将数据放入缓存,返回从数据中读取的数据
+        //redis key的前缀，用来辨认是哪一个页面的redis key
+        let result=await this.get_weibo_by_userName(userName,pageNum,pageSize)
+        redis_set(key,result,60)
+        return result
     }
 
 }

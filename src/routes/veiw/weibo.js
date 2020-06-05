@@ -15,4 +15,7 @@ router.get("/profile",loginRedirect,Weibo.showMyProfile)
 //显示别人的个人主页
 router.get("/profile/:userName",loginRedirect,Weibo.showProfile)
 
+//显示广场页面
+router.get("/square",loginRedirect,Weibo.showSquare)
+
 module.exports=router
