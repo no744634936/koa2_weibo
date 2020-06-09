@@ -39,14 +39,10 @@
                 <%- include('components/user-info', {
                     userInfo:userInfo,
                     isMe:isMe,
+                    followed,followed
                 });%>
             </div>
 
-            <!-- 粉丝 -->
-            <%- include('components/fans', {
-                count: fansData.count,
-                userList: fansData.list
-            })%>
         </div> <!-- 右侧结束 -->
     </div>
 

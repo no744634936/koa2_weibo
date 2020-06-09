@@ -71,3 +71,51 @@ User.hasMany(UserRelation,{foreighKey:"followeeId",constraints: false})
 用代码写就是这样
 
 
+get_fans_list=async(followeeid)=>{
+        let result=await User.findAndCountAll({
+            attributes:["id","userName","nickName","picture"],
+            order:[["id","desc"]],
+            include:[
+                {
+                    model:UserRelation,
+                    where:{followeeid}
+                }
+            ]
+        })
+
+        let fans_list=result.rows.map(row=>row.dataValues)
+
+        return {
+            count:result.count,
+            fans_list,
+        }
+    }
+
+
+
+
+
+
+
+----------------------------------------------------------------------------
+关注功能: 
+个人主页的关注功能的接口是   /api/profile/follow
+
+
+
+首先用isMe 来判断个人空间是否为当前用户的，
+如果个人主页 http://localhost:3000/profile/zhanghaifeng
+是当前用户的那么就显示     @提到我的 ()
+
+
+
+
+如果不是当前用户就是显示，关注或取消关注
+
+如果当前主页的粉丝列表里有我，那么就显示取消关注，
+如果当前主页的粉丝列表里没有我，那么就显示关注
+
+
+
+
+

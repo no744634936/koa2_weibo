@@ -1,8 +1,10 @@
 
 const WeiboModel=require("../../models/WeiboModel.js")
+const UserRelationModel=require("../../models/UserRelationModel.js")
 const {Success,Error}=require("./ApiResultFormat.js")
 const{
     create_weibo_failed,
+    follow_failed,
 }=require("../../conf/errorInfo.js")
 const xss=require("xss")
 const UserModel=require("../../models/UserModel.js")
@@ -66,10 +68,24 @@ class WeiboController{
         let count=result.count
         let isEmpty= weibo_list.length===0 ? true : false
 
-        // console.log("---");
+        // console.log("----------------------------");
         //console.log(weibo_list);
-        
-        
+
+        //获取粉丝
+        let fans_result=await UserRelationModel.get_fans_list(userInfo.id)
+        //把结构出来的count重命名为fans_count
+        let {count:fans_count,fans_list}=fans_result
+
+
+        //我是否关注了此人
+        //如果当前主页的粉丝列表里有我，那么就显示取消关注，
+        // 如果当前主页的粉丝列表里没有我，那么就显示关注
+        //some 方法返回true或false
+        let followed=fans_list.some(item=>{
+            return item.userName==session_userName;
+        })
+
+
         await ctx.render("profile.html",{
             isEmpty,
             blogList:weibo_list,
@@ -79,7 +95,26 @@ class WeiboController{
 
             userInfo,
             isMe,
+            fans_count,
+            fans_list,
+            followed,
         })
+
+    }
+
+    follow=async(ctx,next)=>{
+
+        //被关注的用户的id
+        let {curUserId:followeeId}=ctx.request.body
+        //粉丝的id
+        let {id:followerId}=ctx.session.userInfo
+        try {
+            let result= await UserRelationModel.create_relation(followerId,followeeId)
+             ctx.body=new Success()
+        } catch (error) {
+            console.error(error);
+            ctx.body=new Error(follow_failed)
+        }
 
     }
 
@@ -128,7 +163,6 @@ class WeiboController{
             count:result.count
         })
     }
-
 
     square_loadMore=async(ctx,index)=>{
         let {pageNum}=ctx.params

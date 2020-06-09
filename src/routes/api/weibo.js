@@ -15,6 +15,10 @@ router.post("/weibo/create",loginCheck,validate_weibo,WeiboController.create)
 //load more function
 router.get("/profile/loadMore/:userName/:pageNum",loginCheck,WeiboController.loadMore)
 
+//关注功能
+router.post("/profile/follow",loginCheck,WeiboController.follow)
+
+
 
 //广场页的loadmore
 router.get("/square/loadMore/:pageNum",loginCheck,WeiboController.square_loadMore)
