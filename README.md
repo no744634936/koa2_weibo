@@ -23,4 +23,8 @@ node src/models/select.js
 
 
 -------------------------------------------------------------------
+建立表之间的关系的时候一定要注意foreignKey 是否写对了，否则sequelize会自动给表添加 userId 字段。
 
+blog.belongsTo(author, { foreignKey: 'authorID',constraints: false});
+
+author.hasMany(blog, { foreignKey: 'authorID',constraints: false});
