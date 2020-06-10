@@ -27,6 +27,6 @@ node src/models/select.js
 
 blog.belongsTo(author, { foreignKey: 'authorID',constraints: false});
 
-------------------------------------------------------------------------------------------
-
 author.hasMany(blog, { foreignKey: 'authorID',constraints: false});
+
+------------------------------------------------------------------------------------------
