@@ -41,6 +41,17 @@ console.log(fans_list);
 
         return result.dataValues
     }
+    delete_relation=async(followerId,followeeId)=>{
+        console.log(followerId,followeeId);
+        
+        let result=await UserRelation.destroy({
+            where:{
+                followerId:followerId,
+                followeeId,followeeId,
+            }
+        })
+        return result>0;
+    }
 }
 
 module.exports=new UserRelationModel();

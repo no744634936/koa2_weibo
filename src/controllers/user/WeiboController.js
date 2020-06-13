@@ -5,6 +5,7 @@ const {Success,Error}=require("./ApiResultFormat.js")
 const{
     create_weibo_failed,
     follow_failed,
+    unfollow_failed,
 }=require("../../conf/errorInfo.js")
 const xss=require("xss")
 const UserModel=require("../../models/UserModel.js")
@@ -106,6 +107,9 @@ class WeiboController{
 
         //被关注的用户的id，这个是从前端页面通过ajax传过来的
         let {curUserId:followeeId}=ctx.request.body
+
+        console.log();
+        
         //粉丝的id
         let {id:followerId}=ctx.session.userInfo
         try {
@@ -118,7 +122,21 @@ class WeiboController{
 
     }
     unfollow=async(ctx,next)=>{
-        let result= await UserRelationModel.delete_relation(followerId,followeeId)
+        //被关注的用户的id，这个是从前端页面通过ajax传过来的
+        console.log(ctx.request.body.curUserId);
+        
+        let {curUserId:followeeId}=ctx.request.body
+        //粉丝的id
+        let {id:followerId}=ctx.session.userInfo
+        let result=await UserRelationModel.delete_relation(followerId,followeeId)
+    
+        //为什么follow 方法利用try catch 而这里却用if呢？
+        if(result){
+            ctx.body=new Success()
+        }else{
+            ctx.body=new Error(unfollow_failed)
+        }
+        
     }
 
     test=()=>{
