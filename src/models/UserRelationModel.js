@@ -6,10 +6,6 @@ class UserRelationModel{
      * @description 根据被关注人的id 找到他的粉丝们
      * @param {number} followeeid 被关注人的id
      * 
-     * 根据被关注者的id 在UserRelation表里找到了记录，
-     * 然后因为 User表里的id 等于 UserRelation表里的followeeId
-     * (relation.js 里的User.hasMany(UserRelation,{foreighKey:"followeeId",constraints: false})关系来连接表)
-     * 所以id可以找出，followee的基本信息。
      */
     get_fans_list=async(followeeid)=>{
         let result=await User.findAndCountAll({
