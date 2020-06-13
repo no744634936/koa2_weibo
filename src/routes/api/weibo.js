@@ -18,6 +18,9 @@ router.get("/profile/loadMore/:userName/:pageNum",loginCheck,WeiboController.loa
 //关注功能
 router.post("/profile/follow",loginCheck,WeiboController.follow)
 
+//取消关注功能
+router.post("/profile/unfollow",loginCheck,WeiboController.unfollow)
+
 
 
 //广场页的loadmore

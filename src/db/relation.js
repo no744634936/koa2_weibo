@@ -18,12 +18,14 @@ User.hasMany(Weibo, { foreignKey: 'userId',constraints: false})
 //根据被关注者的id 在UserRelation表里找到了记录，
 //然后因为 User表里的id 等于 UserRelation表表里的followeeId
 //所以id可以找出，followee的基本信息。
-User.hasMany(UserRelation,{foreighKey:"followeeId",constraints: false})
+// User.hasMany(UserRelation,{foreignKey:'followeeId',constraints: false})
+
 
 //其他的暂时还用不到。
-// UserRelation.belongsTo(User,{foreighKey:"followeeId",constraints: false})
-// UserRelation.belongsTo(User,{foreighKey:"followerId",constraints: false})
-//User.hasMany(UserRelation,{foreighKey:"followerId",constraints: false})
+// UserRelation.belongsTo(User,{foreignKey:"followeeId",constraints: false})
+User.hasMany(UserRelation,{foreignKey:'followerId',constraints: false})
+UserRelation.belongsTo(User,{foreignKey:"followerId",constraints: false})
+// User.hasMany(UserRelation,{foreignKey:"followerId",constraints: false})
 
 
 module.exports={

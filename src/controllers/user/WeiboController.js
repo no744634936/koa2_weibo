@@ -72,6 +72,8 @@ class WeiboController{
         //console.log(weibo_list);
 
         //获取粉丝
+        console.log(userInfo.id);
+        
         let fans_result=await UserRelationModel.get_fans_list(userInfo.id)
         //把结构出来的count重命名为fans_count
         let {count:fans_count,fans_list}=fans_result
@@ -84,6 +86,14 @@ class WeiboController{
         let followed=fans_list.some(item=>{
             return item.userName==session_userName;
         })
+
+        
+        // console.log(fans_list);
+        
+        // console.log(session_userName);
+        
+        // console.log(followed);
+        
 
 
         await ctx.render("profile.html",{
@@ -116,6 +126,9 @@ class WeiboController{
             ctx.body=new Error(follow_failed)
         }
 
+    }
+    unfollow=async(ctx,next)=>{
+        let result= await UserRelationModel.delete_relation(followerId,followeeId)
     }
 
     test=()=>{
