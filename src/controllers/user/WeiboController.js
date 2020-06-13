@@ -68,9 +68,6 @@ class WeiboController{
         let count=result.count
         let isEmpty= weibo_list.length===0 ? true : false
 
-        // console.log("----------------------------");
-        //console.log(weibo_list);
-
         //获取粉丝
         console.log(userInfo.id);
         
@@ -86,13 +83,6 @@ class WeiboController{
         let followed=fans_list.some(item=>{
             return item.userName==session_userName;
         })
-
-        
-        // console.log(fans_list);
-        
-        // console.log(session_userName);
-        
-        // console.log(followed);
         
 
 
@@ -114,7 +104,7 @@ class WeiboController{
 
     follow=async(ctx,next)=>{
 
-        //被关注的用户的id
+        //被关注的用户的id，这个是从前端页面通过ajax传过来的
         let {curUserId:followeeId}=ctx.request.body
         //粉丝的id
         let {id:followerId}=ctx.session.userInfo
