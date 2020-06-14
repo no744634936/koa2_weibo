@@ -1,3 +1,7 @@
+
+0,最开始查看weibo_database_structure 图片
+
+
 1, 首先实例化sequelize
 seq.js
 
@@ -31,9 +35,6 @@ INSERT INTO `user_tests` VALUES
 
 INSERT INTO `userrelation_tests` VALUES (1,1,2,'2020-06-10 15:11:09','2020-06-10 15:11:09');
 INSERT INTO `userrelation_tests` VALUES (2,1,3,'2020-06-10 15:11:09','2020-06-10 15:11:09');
-
-
-执行find_data.js  文件，根据关系的不同可以看见，不同的结果。
 
 
 
