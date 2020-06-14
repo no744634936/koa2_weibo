@@ -6,90 +6,64 @@ seq.js
 2,表与表之间的关系
 
 首先建立两个表
+
 user_table.js
+
 userRelation.js
 
 3,然后建立表与表之间的联系
+
 table_relations.js
 
 
 手动给两个表传入数据，
+
 INSERT INTO `user_tests` VALUES 
-(1,'zhanghaifeng','5a9c450adaeb73e05148e70b7bbd21f7','zhanghaifeng',1,NULL,NULL,'2020-06-10 15:10:39','2020-06-10 15:10:39'),
-(2,'wang','5a9c450adaeb73e05148e70b7bbd21f7','wang',1,NULL,NULL,'2020-06-10 15:10:53','2020-06-10 15:10:53');
+(1,'zhanghaifeng','5a9c450adaeb73e05148e70b7bbd21f7','zhanghaifeng',1,NULL,
+NULL,'2020-06-10 15:10:39','2020-06-10 15:10:39'),
+(2,'wang','5a9c450adaeb73e05148e70b7bbd21f7','wang',1,NULL,NULL,'2020-06-10 
+15:10:53','2020-06-10 15:10:53');
+
+INSERT INTO `user_tests` VALUES 
+(3,'yang','5a9c450adaeb73e05148e70b7bbd21f7','yang',1,NULL,NULL,'2020-06-10 15:10:39','2020-06-10 15:10:39'),
+(4,'huang','5a9c450adaeb73e05148e70b7bbd21f7','huang',1,NULL,NULL,'2020-06-10 15:10:53','2020-06-10 15:10:53');
 
 
 INSERT INTO `userrelation_tests` VALUES (1,1,2,'2020-06-10 15:11:09','2020-06-10 15:11:09');
+INSERT INTO `userrelation_tests` VALUES (2,1,3,'2020-06-10 15:11:09','2020-06-10 15:11:09');
 
 
 执行find_data.js  文件，根据关系的不同可以看见，不同的结果。
 
 
-如果关系是这个，
+
+
+
+1，如果一张表里面有两个外键，那么可以这样写关系，
+
+  hasMany 跟belongsTo 关系一定是成对出现的。
+
+
+//get_fans_list
 User.hasMany(UserRelation,{foreignKey:'followeeId',constraints: false})
-UserRelation.belongsTo(User,{foreignKey:"followeeId",constraints: false})
 
-
-下面这段代码的意思就是说，先从UserRelation表里面将 followeeId 等于2 的记录去取出来，
-然后根据记录里的followeeId 的值(值为2)从User表里查找出记录
-
------------
-    let result=await User.findAndCountAll({
-        attributes:["id","userName","nickName","picture"],
-        order:[["id","desc"]],
-        include:[
-            {
-                model:UserRelation,
-                where:{followeeId:followeeId}
-            }
-        ]
-    })
--------------
-
-
-执行的结果为:
-
-[
-  {
-    id: 2,
-    userName: 'wang',
-    nickName: 'wang',
-    picture: null,
-    userRelation_tests: [ [userRelation_test] ]
-  }
-]
-
-
-
-如果关系是这个，
-User.hasMany(UserRelation,{foreignKey:'followerId',constraints: false})
+// //get_followee_list
 UserRelation.belongsTo(User,{foreignKey:"followerId",constraints: false})
 
 
-下面这段代码的意思就是说，先从UserRelation表里面将 followeeId 等于2 的记录去取出来，
-然后根据记录里的followerId 的值(值为1)从User表里查找出记录
+或者这样写也可以
 
------------
-    let result=await User.findAndCountAll({
-        attributes:["id","userName","nickName","picture"],
-        order:[["id","desc"]],r
-        include:[
-            {
-                model:UserRelation,
-                where:{followeeId:followeeId}
-            }
-        ]
-    })
--------------
+//get_followee_list
+User.hasMany(UserRelation,{foreignKey:'followerId',constraints: false})
 
-那么查询的结果为
+//get_fans_list
+UserRelation.belongsTo(User,{foreignKey:"followeeId",constraints: false})
 
-[
-  {
-    id: 1,
-    userName: 'zhanghaifeng',
-    nickName: 'zhanghaifeng',
-    picture: null,
-    userRelation_tests: [ [userRelation_test] ]
-  }
-]
+
+查看 table_relations.js 与 table_relations2.js 的区别。
+
+查看 find_data.js 与 find_data2.js 的区别。
+
+注意一定要先执行 create_tables.js文件后，插入数据，再执行find_data.js
+
+一定要先执行 create_tables2.js文件后，插入数据，再执行find_data2.js

@@ -1,6 +1,6 @@
 const seq=require("./seq.js")
 
-require("./table_relations.js")
+require("./table_relations2.js")
 
 //测试链接
 seq.authenticate().then(()=>{
