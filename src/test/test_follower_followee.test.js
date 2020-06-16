@@ -1,5 +1,5 @@
 /**
- * @description 粉丝列表与关注人列表的测试
+ * @description 关注与取消关注，粉丝列表与关注人列表的测试
  * @author zhanghaifeng
  */
 
