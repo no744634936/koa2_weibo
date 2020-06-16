@@ -46,18 +46,22 @@ INSERT INTO `userrelation_tests` VALUES (2,1,3,'2020-06-10 15:11:09','2020-06-10
 
 
 //get_fans_list
+//查user然后，include userRelation
 User.hasMany(UserRelation,{foreignKey:'followeeId',constraints: false})
 
 // //get_followee_list
+//查userRelation然后，include user
 UserRelation.belongsTo(User,{foreignKey:"followerId",constraints: false})
 
 
 或者这样写也可以
 
 //get_followee_list
+//查user然后，include userRelation
 User.hasMany(UserRelation,{foreignKey:'followerId',constraints: false})
 
 //get_fans_list
+//查userRelation然后，include user
 UserRelation.belongsTo(User,{foreignKey:"followeeId",constraints: false})
 
 
