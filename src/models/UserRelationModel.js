@@ -32,7 +32,30 @@ class UserRelationModel{
      * @param {number} followerId 粉丝的id
      */
     get_followee_list=async(followerId)=>{
-
+        let result=await UserRelation.findAndCountAll({
+            order:[["id","desc"]],
+            where:{followerId,followerId},
+            include:[
+                {
+                    model:User,
+                    attributes:["id","userName","nickName","picture"]
+                }
+            ],
+     
+        })
+    
+        let followee_list=result.rows.map(row=>row.dataValues);
+        
+        followee_list=followee_list.map(row=>{
+            let followee=row.user.dataValues;
+            return followee
+            
+        })
+        
+        return {
+            count:result.count,
+            followee_list,
+        }
     }
 
     create_relation=async(followerId,followeeId)=>{

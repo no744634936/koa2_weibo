@@ -86,6 +86,12 @@ class WeiboController{
         })
         
 
+        //获取我关注的人的列表
+        let followee_result=await UserRelationModel.get_followee_list(userInfo.id)
+
+        // console.log(followee_result);
+        
+
 
         await ctx.render("profile.html",{
             isEmpty,
@@ -99,6 +105,9 @@ class WeiboController{
             fans_count,
             fans_list,
             followed,
+
+            followee_count:followee_result.count,
+            followee_list:followee_result.followee_list,
         })
 
     }

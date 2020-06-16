@@ -1,3 +1,1 @@
-取消关注的接口
-
-router.post("/profile/unfollow",loginCheck,WeiboController.unfollow)
+查看关注人列表图片
