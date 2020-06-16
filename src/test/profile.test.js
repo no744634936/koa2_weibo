@@ -38,6 +38,8 @@ test("个人主页,加载第一页数据应该成功",async()=>{
     // expect(response.body.errnum).toBe(0)
 
     //我可以测是否返回了一些参数，这样测不太准确，记住种方法就行
+    console.log("hhahah");
+    
     console.log(response.body);
     
     expect(response.body).toHaveProperty("html")
