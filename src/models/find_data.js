@@ -1,4 +1,4 @@
-const {User,UserRelation}=require("./table_relations.js")
+const {User,UserRelation,Weibo}=require("./table_relations.js")
 
 
 //get fans list
@@ -22,6 +22,8 @@ get_fans_list=async(followeeId)=>{
             }
         ]
     })
+    console.log(result);
+    
     let fans_list=result.rows.map(row=>row.dataValues)
 
     console.log(fans_list);
@@ -78,3 +80,42 @@ get_followee_list=async(followerId)=>{
 }
 
 get_followee_list(1);
+
+
+get_followee_blog_list=async(myUserId)=>{
+    //因为要查询的是微博，所以才是 Weibo.findAndCountAll
+    let result=await Weibo.findAndCountAll({
+        order:[["id","desc"]],
+        include:[
+            {
+                model:User,
+                attributes:["id","userName","nickName","picture"]
+            },
+            //第一步这个时候，weibo与user表已经通过 userId=id联系起来了，
+            //每条weibo里面都包含了 user的"id","userName","nickName","picture" 信息
+            {
+                model:UserRelation,
+                attributes:["followerId","followeeId"],
+                where:{followerId:myUserId}
+            }
+            //第二步这个时候，根据followerId:myUserId 来取出符合条的记录
+            //然后因为 Weibo 表中的 userId  对应到 userRelation表中的FolloweeId ,
+            //将followeeId 每一条记录里面，写入"followerId","followeeId"
+        ]
+    })
+
+
+    let followee_weibo_list=result.rows.map(row=>row.dataValues);
+    console.log("111111111111111111");
+    console.log(followee_weibo_list);
+
+    followee_weibo_list=followee_weibo_list.map(weiboItem=>{
+        weiboItem.user_test=weiboItem.user_test.dataValues;
+        return weiboItem;
+    })
+
+    console.log("222222222222222222");
+    console.log(followee_weibo_list);
+}
+
+get_followee_blog_list(1);
