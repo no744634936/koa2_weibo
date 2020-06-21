@@ -1,5 +1,5 @@
 const {UserRelation,User}=require("../db/relation.js")
-
+const Sequelize=require("sequelize")
 
 class UserRelationModel{
     /**
@@ -14,7 +14,11 @@ class UserRelationModel{
             include:[
                 {
                     model:UserRelation,
-                    where:{followeeId}
+                    where:{
+                        followeeId,
+                        //follwerId 不等于 followeeId 过滤给掉自己关注自己的记录
+                        followerId:{[Sequelize.Op.ne]:followeeId}
+                    }
                 }
             ]
         })
@@ -34,7 +38,11 @@ class UserRelationModel{
     get_followee_list=async(followerId)=>{
         let result=await UserRelation.findAndCountAll({
             order:[["id","desc"]],
-            where:{followerId,followerId},
+            where:{
+                followerId,
+                //follweeId 不等于 followerId 过滤给掉自己关注自己的记录
+                followeeId:{[Sequelize.Op.ne]:followerId}
+            },
             include:[
                 {
                     model:User,

@@ -54,6 +54,7 @@ class UserApiController{
                 password:docrypto(password),
                 gender
             })
+
             ctx.body=new Success()   //返回 {errnum:0,{}}
         } catch (error) {
             //打印错误日志的时候会讲到

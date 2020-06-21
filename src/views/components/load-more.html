@@ -23,6 +23,8 @@
        $(function(){
         $('#btn-load-more').click(function(){
             var nextpageNum = PAGE_NUM + 1
+            console.log(api);
+            
             $.getJSON(`${api}/${nextpageNum}`, function(data){
                 
                 // 更新 pageNum

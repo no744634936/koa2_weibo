@@ -17,7 +17,43 @@ const {formatDateTime}=require("../../models/_format.js")
 
 class WeiboController{
     showTopPage=async(ctx,next)=>{
-        await ctx.render("index.html")
+        let userInfo=ctx.session.userInfo;
+        let {id}=userInfo;
+
+        //获取粉丝列表
+        let fans_result=await UserRelationModel.get_fans_list(id)
+        //把结构出来的count重命名为fans_count
+        let {count:fans_count,fans_list}=fans_result
+
+        //获取我关注的人的列表
+        let followee_result=await UserRelationModel.get_followee_list(id)
+
+        //获取我自己的微博与我关注的人的第一页微博
+        let pageNum=1
+        let pageSize=3
+        let result=await WeiboModel.get_followee_blog_list(id,pageNum,pageSize)
+        
+        let weibo_list=formatDateTime(result.followee_weibo_list)
+        let count=result.count
+        let isEmpty= weibo_list.length===0 ? true : false
+
+        await ctx.render("index.html",{
+            //我自己的微博与我关注的人的微博，分页
+            isEmpty,
+            blogList:weibo_list,
+            pageSize,
+            pageNum: pageNum,
+            count,
+
+            //用户的数据
+            userInfo,
+            //粉丝列表数据
+            fans_count,
+            fans_list,
+            //关注的人列表数据
+            followee_count:followee_result.count,
+            followee_list:followee_result.followee_list,
+        })
     }
     create=async(ctx,next)=>{
         let {content,image}=ctx.request.body
@@ -116,8 +152,6 @@ class WeiboController{
 
         //被关注的用户的id，这个是从前端页面通过ajax传过来的
         let {curUserId:followeeId}=ctx.request.body
-
-        console.log();
         
         //粉丝的id
         let {id:followerId}=ctx.session.userInfo
@@ -130,6 +164,7 @@ class WeiboController{
         }
 
     }
+
     unfollow=async(ctx,next)=>{
         //被关注的用户的id，这个是从前端页面通过ajax传过来的
         console.log(ctx.request.body.curUserId);
@@ -206,6 +241,28 @@ class WeiboController{
             blogData:result.weibo_list
         });
 
+        ctx.body={
+            html:html,
+            pageNum:pageNum
+        }
+    }
+
+    top_page_load_more=async(ctx,next)=>{
+        //获取我自己的微博与我关注的人的第一页微博
+
+        let {pageNum}=ctx.params
+        // 字符串转成数字
+        pageNum=parseInt(pageNum);
+        
+        let myUesrId=ctx.session.userInfo.id
+        let pageSize=3
+        let result=await WeiboModel.get_followee_blog_list(myUesrId,pageNum,pageSize)
+
+        let file_path=path.join(__dirname,"..","..","views","components","blog-list.html")
+        let html = template_art(file_path, {
+            blogData:result.followee_weibo_list
+        });
+        
         ctx.body={
             html:html,
             pageNum:pageNum

@@ -6,8 +6,57 @@
         <div class="col-8">
             <!-- 输入框 -->
             <%- include('components/input')%>
-        </div>
+
+            <!-- 自己的和我关注的人的微博列表 -->
+            
+        <% if (isEmpty) { %>
+            <div>
+                <center>暂无数据</center>
+            </div>
+        <% } else { %>
+            <!-- 微博列表 第一页 -->
+            <div id="container-weibo-list" class="weibo-list">
+                <%- include('components/blog-list', {
+                    blogData: blogList
+                })%>
+            </div> <!-- 微博列表 结束 -->
+            <!-- 加载更多 -->
+            <% if (count > blogList.length) { %>
+                <%- include('components/load-more', {
+                    pageSize: pageSize,
+                    pageNum: pageNum,
+                    count: count,
+                    containerSelector: '#container-weibo-list',
+                    api: '/api/topPage/loadMore',
+                })%>
+            <% } %> <!-- 加载更多 结束 -->
+        <% } %>
+        </div> <!-- 左侧结束 -->
+
+                <!-- 右侧 -->
+        <div class="col-4">
+            <!-- 个人信息 -->
+            <div class="right-item">
+                <%- include('components/user-info', {
+                    userInfo:userInfo,
+                    isMe:true,
+                    followed:false
+                });%>
+            </div>
+            <!-- 粉丝 -->
+            <%- include('components/fans', {
+                count: fans_count,
+                userList: fans_list
+            })%>
+
+            <!-- 关注的人 -->
+            <%- include('components/followee', {
+                count: followee_count,
+                userList: followee_list
+            })%>
+        </div> <!-- 右侧结束 -->
     </div>
+
 </div>
 
 <%- include('layout/footer')%>

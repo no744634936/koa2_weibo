@@ -9,7 +9,7 @@
 // const {User}=require("../db/tables/user_table.js")
 
 //要这样导入才能做连表查询
-const{Weibo,User}=require("../db/relation.js")
+const{Weibo,User,UserRelation}=require("../db/relation.js")
 const {redis_set,redis_get}=require("../cache/_redis.js")
 
 
@@ -102,10 +102,54 @@ class WeiboModel{
         return result
     }
 
+    get_followee_blog_list=async(myUserId,pageNum=1,pageSize=5)=>{
+        //followee 里面也包含自己
+        //因为要查询的是微博，所以才是 Weibo.findAndCountAll
+        let result=await Weibo.findAndCountAll({
+
+            limit:pageSize, //每页多少条
+            offset:(pageNum-1)*pageSize, //跳过多少条
+            order:[["id","desc"]],
+            include:[
+                {
+                    model:User,
+                    attributes:["id","userName","nickName","picture"]
+                },
+                //第一步这个时候，weibo与user表已经通过 userId=id联系起来了，
+                //每条weibo里面都包含了 user的"id","userName","nickName","picture" 信息
+                {
+                    model:UserRelation,
+                    attributes:["followerId","followeeId"],
+                    where:{followerId:myUserId}
+                }
+                //第二步这个时候，根据followerId:myUserId 来取出符合条的记录
+                //然后因为 Weibo 表中的 userId  对应到 userRelation表中的FolloweeId ,
+                //将followeeId 每一条记录里面，写入"followerId","followeeId"
+            ]
+        })
+    
+    
+        let followee_weibo_list=result.rows.map(row=>row.dataValues);
+        // console.log("111111111111111111");
+        // console.log(followee_weibo_list);
+        followee_weibo_list=followee_weibo_list.map(weiboItem=>{
+            weiboItem.user=weiboItem.user.dataValues;
+            return weiboItem;
+        })
+        // console.log("222222222222222222");
+        // console.log(followee_weibo_list);
+
+        return{
+            count:result.count,
+            followee_weibo_list,
+        }
+    }
+
 }
 
 // let test=new WeiboModel()
 // test.get_weibo_by_userName("zhanghaifeng")
+// test.get_followee_blog_list(1);
 
 
 module.exports=new WeiboModel()

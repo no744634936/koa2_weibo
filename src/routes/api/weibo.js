@@ -26,4 +26,8 @@ router.post("/profile/unfollow",loginCheck,WeiboController.unfollow)
 //广场页的loadmore
 router.get("/square/loadMore/:pageNum",loginCheck,WeiboController.square_loadMore)
 
+
+//首页的loadmore
+router.get("/topPage/loadMore/:pageNum",loginCheck,WeiboController.top_page_load_more)
+
 module.exports=router

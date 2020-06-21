@@ -5,6 +5,7 @@
 
  const {User}=require("../db/tables/user_table.js")
  const {formatUserImg}=require("./_format.js")
+ const UserRelationModel=require("./UserRelationModel.js")
 
  class UserModel{
 
@@ -51,8 +52,14 @@
             nickName: nickName ? nickName: userName,
             gender,
         })
-        console.log(result.dataValues);
-        return result.dataValues
+
+        //sequelize 新建成功后会返回新建的那条数据
+        let data=result.dataValues
+
+        //自己关注自己
+        await UserRelationModel.create_relation(data.id,data.id);
+
+        return data
     }
 
     /**

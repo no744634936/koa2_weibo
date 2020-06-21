@@ -17,6 +17,21 @@ User.hasMany(UserRelation,{foreignKey:'followerId',constraints: false})
 // //get_followee_list
 UserRelation.belongsTo(User,{foreignKey:"followeeId",constraints: false})
 
+//获取我关注的人的微博数据
+//Weibo 表中的 userId  对应到 userRelation表中的FolloweeId ,
+//如果不写 targetKey:"followeeId",  那么Weibo 表中的 userId  对应到 userRelation表中的id。
+Weibo.belongsTo(UserRelation,{
+    foreignKey:"userId",
+    targetKey:"followeeId",
+    constraints: false
+})
+
+UserRelation.hasMany(Weibo,{
+    foreignKey:"userId",
+    targetKey:"followeeId",
+    constraints: false
+})
+
 
 module.exports={
     Weibo,
