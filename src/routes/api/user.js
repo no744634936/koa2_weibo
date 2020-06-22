@@ -27,7 +27,7 @@ router.patch("/changePassword",loginCheck,validate_userInfo,UserApiController.ch
 
 router.post("/logout",UserApiController.logout)
 
-
+router.get("/getAtList",UserApiController.getFolloweeList)
 
 
 

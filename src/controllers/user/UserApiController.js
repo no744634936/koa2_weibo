@@ -1,6 +1,7 @@
 
 //引入model
 const userModel=require("../../models/UserModel.js")
+const UserRelationModel=require("../../models/UserRelationModel.js")
 const {Success,Error}=require("./ApiResultFormat.js")
 const{
     user_name_exist_info,
@@ -151,6 +152,23 @@ class UserApiController{
     logout=async(ctx,next)=>{
         delete(ctx.session.userInfo)
         ctx.body=new Success()
+    }
+    getFolloweeList=async(ctx,next)=>{
+        let id=ctx.session.userInfo.id
+        //获取我关注的人的列表
+        let followee_result=await UserRelationModel.get_followee_list(id)
+
+        console.log(followee_result);
+        
+        //制作一个用户名数组，
+        // 这是格根据 tribute 这个包来做的数组，数组里面必须包含objec，
+        // 然后object 里面必须包含 key 跟value两个元素
+        //将这个数组传到前端之后，tribute就可以显示需要@的人的列表了
+        let list=followee_result.followee_list.map(user=>{
+            return {key:user.userName,value:user.userName}
+        })
+        
+        ctx.body=list
     }
 }
 
