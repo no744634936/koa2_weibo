@@ -11,7 +11,7 @@ const xss=require("xss")
 const UserModel=require("../../models/UserModel.js")
 const template_art = require('art-template');
 const path=require("path")
-const {formatDateTime}=require("../../models/_format.js")
+const {formatWeibo}=require("../../models/_format.js")
 
 
 
@@ -33,7 +33,7 @@ class WeiboController{
         let pageSize=3
         let result=await WeiboModel.get_followee_blog_list(id,pageNum,pageSize)
         
-        let weibo_list=formatDateTime(result.followee_weibo_list)
+        let weibo_list=formatWeibo(result.followee_weibo_list)
         let count=result.count
         let isEmpty= weibo_list.length===0 ? true : false
 
@@ -101,7 +101,7 @@ class WeiboController{
         let pageSize=3
         let result=await WeiboModel.get_weibo_by_userName(current_userName,pageNum,pageSize)
         
-        let weibo_list=formatDateTime(result.weibo_list)
+        let weibo_list=formatWeibo(result.weibo_list)
         let count=result.count
         let isEmpty= weibo_list.length===0 ? true : false
 
@@ -219,10 +219,9 @@ class WeiboController{
         let result=await WeiboModel.get_all_weibo({pageNum,pageSize})
         let isEmpty= result.length===0 ? true : false
 
-        //对时间的处理formatDateTime应该放在model层来做的
         await ctx.render("square.html",{
             isEmpty,
-            blogList:formatDateTime(result.weibo_list),
+            blogList:formatWeibo(result.weibo_list),
             pageSize,
             pageNum: pageNum,
             count:result.count
