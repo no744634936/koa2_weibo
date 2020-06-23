@@ -1,0 +1,45 @@
+2020-06-24 00:06:14: server error Error
+    at C:\Users\zhang\Desktop\koa2_weibo\src\routes\api\user.js:34:11
+    at dispatch (C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-router\node_modules\koa-compose\index.js:44:32)
+    at next (C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-router\node_modules\koa-compose\index.js:45:18)
+    at C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-router\lib\router.js:346:16
+    at dispatch (C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-router\node_modules\koa-compose\index.js:44:32)
+    at C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-router\node_modules\koa-compose\index.js:36:12
+    at dispatch (C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-router\lib\router.js:351:31)
+    at dispatch (C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-compose\index.js:42:32)
+    at dispatch (C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-router\lib\router.js:332:32)
+    at dispatch (C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-compose\index.js:42:32)
+    at C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-generic-session\lib\session.js:280:15
+    at Generator.next (<anonymous>)
+    at step (C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-generic-session\lib\session.js:3:191)
+    at C:\Users\zhang\Desktop\koa2_weibo\node_modules\koa-generic-session\lib\session.js:3:361
+    at processTicksAndRejections (internal/process/task_queues.js:93:5) {
+  request: {
+    method: 'GET',
+    url: '/api/user/throwError',
+    header: {
+      host: 'localhost:3000',
+      connection: 'keep-alive',
+      'upgrade-insecure-requests': '1',
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
+      accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+      'sec-fetch-site': 'none',
+      'sec-fetch-mode': 'navigate',
+      'sec-fetch-user': '?1',
+      'sec-fetch-dest': 'document',
+      'accept-encoding': 'gzip, deflate, br',
+      'accept-language': 'ja-JP,ja;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
+      cookie: 'weibo.sid=rklOTBRFzwkcotoE00MgcLzE_6v1MDmn; weibo.sid.sig=psb7A34Y35fV2LZnuKUsBb5Xm0M'
+    }
+  },
+  response: {
+    status: 404,
+    message: 'Not Found',
+    header: [Object: null prototype] {}
+  },
+  app: { subdomainOffset: 2, proxy: false, env: 'production' },
+  originalUrl: '/api/user/throwError',
+  req: '<original node req>',
+  res: '<original node res>',
+  socket: '<original node socket>'
+}

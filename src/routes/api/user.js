@@ -31,6 +31,16 @@ router.get("/getAtList",UserApiController.getFolloweeList)
 
 
 
+router.get("/throwError",async(ctx,next)=>{
+    throw Error();
+    ctx.body={
+        test:"hahaha"
+    }
+})
+
+
+
+
 module.exports=router
 
 //每次建立了路由就要在app.js里面注册一下。

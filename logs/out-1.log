@@ -1,0 +1,72 @@
+2020-06-23 23:49:49:   <-- GET /
+2020-06-23 23:49:49: Executing (default): SELECT count(`user`.`id`) AS `count` FROM `users` AS `user` INNER JOIN `userRelations` AS `userRelations` ON `user`.`id` = `userRelations`.`followerId` AND `userRelations`.`followeeId` = 1 AND `userRelations`.`followerId` != 1;
+2020-06-23 23:49:49: Executing (default): SELECT `user`.`id`, `user`.`userName`, `user`.`nickName`, `user`.`picture`, `userRelations`.`id` AS `userRelations.id`, `userRelations`.`followerId` AS `userRelations.followerId`, `userRelations`.`followeeId` AS `userRelations.followeeId`, `userRelations`.`createdAt` AS `userRelations.createdAt`, `userRelations`.`updatedAt` AS `userRelations.updatedAt` FROM `users` AS `user` INNER JOIN `userRelations` AS `userRelations` ON `user`.`id` = `userRelations`.`followerId` AND `userRelations`.`followeeId` = 1 AND `userRelations`.`followerId` != 1 ORDER BY `user`.`id` DESC;
+2020-06-23 23:49:49: Executing (default): SELECT count(`userRelation`.`id`) AS `count` FROM `userRelations` AS `userRelation` LEFT OUTER JOIN `users` AS `user` ON `userRelation`.`followeeId` = `user`.`id` WHERE `userRelation`.`followerId` = 1 AND `userRelation`.`followeeId` != 1;
+2020-06-23 23:49:49: Executing (default): SELECT `userRelation`.`id`, `userRelation`.`followerId`, `userRelation`.`followeeId`, `userRelation`.`createdAt`, `userRelation`.`updatedAt`, `user`.`id` AS `user.id`, `user`.`userName` AS `user.userName`, `user`.`nickName` AS `user.nickName`, `user`.`picture` AS `user.picture` FROM `userRelations` AS `userRelation` LEFT OUTER JOIN `users` AS `user` ON `userRelation`.`followeeId` = `user`.`id` WHERE `userRelation`.`followerId` = 1 AND `userRelation`.`followeeId` != 1 ORDER BY `userRelation`.`id` DESC;
+2020-06-23 23:49:49: Executing (default): SELECT count(`weibo`.`id`) AS `count` FROM `weibos` AS `weibo` LEFT OUTER JOIN `users` AS `user` ON `weibo`.`userId` = `user`.`id` INNER JOIN `userRelations` AS `userRelation` ON `weibo`.`userId` = `userRelation`.`followeeId` AND `userRelation`.`followerId` = 1;
+2020-06-23 23:49:49: Executing (default): SELECT `weibo`.`id`, `weibo`.`userId`, `weibo`.`content`, `weibo`.`image`, `weibo`.`createdAt`, `weibo`.`updatedAt`, `user`.`id` AS `user.id`, `user`.`userName` AS `user.userName`, `user`.`nickName` AS `user.nickName`, `user`.`picture` AS `user.picture`, `userRelation`.`id` AS `userRelation.id`, `userRelation`.`followerId` AS `userRelation.followerId`, `userRelation`.`followeeId` AS `userRelation.followeeId` FROM `weibos` AS `weibo` LEFT OUTER JOIN `users` AS `user` ON `weibo`.`userId` = `user`.`id` INNER JOIN `userRelations` AS `userRelation` ON `weibo`.`userId` = `userRelation`.`followeeId` AND `userRelation`.`followerId` = 1 ORDER BY `weibo`.`id` DESC LIMIT 0, 3;
+2020-06-23 23:49:50:   --> GET / 200 625ms 7.14kb
+2020-06-23 23:49:50:   <-- GET /css/main.css
+2020-06-23 23:49:50:   <-- GET /css/list.css
+2020-06-23 23:49:50:   <-- GET /css/right.css
+2020-06-23 23:49:50:   <-- GET /javascripts/tribute.js
+2020-06-23 23:49:50:   --> GET /css/main.css 200 14ms 714b
+2020-06-23 23:49:50:   --> GET /css/list.css 200 14ms 578b
+2020-06-23 23:49:50:   --> GET /css/right.css 200 12ms 561b
+2020-06-23 23:49:50:   --> GET /javascripts/tribute.js 200 9ms 66.54kb
+2020-06-23 23:52:34:   <-- GET /
+2020-06-23 23:52:34: Executing (default): SELECT count(`user`.`id`) AS `count` FROM `users` AS `user` INNER JOIN `userRelations` AS `userRelations` ON `user`.`id` = `userRelations`.`followerId` AND `userRelations`.`followeeId` = 1 AND `userRelations`.`followerId` != 1;
+2020-06-23 23:52:34: Executing (default): SELECT `user`.`id`, `user`.`userName`, `user`.`nickName`, `user`.`picture`, `userRelations`.`id` AS `userRelations.id`, `userRelations`.`followerId` AS `userRelations.followerId`, `userRelations`.`followeeId` AS `userRelations.followeeId`, `userRelations`.`createdAt` AS `userRelations.createdAt`, `userRelations`.`updatedAt` AS `userRelations.updatedAt` FROM `users` AS `user` INNER JOIN `userRelations` AS `userRelations` ON `user`.`id` = `userRelations`.`followerId` AND `userRelations`.`followeeId` = 1 AND `userRelations`.`followerId` != 1 ORDER BY `user`.`id` DESC;
+2020-06-23 23:52:34: Executing (default): SELECT count(`userRelation`.`id`) AS `count` FROM `userRelations` AS `userRelation` LEFT OUTER JOIN `users` AS `user` ON `userRelation`.`followeeId` = `user`.`id` WHERE `userRelation`.`followerId` = 1 AND `userRelation`.`followeeId` != 1;
+2020-06-23 23:52:34: Executing (default): SELECT `userRelation`.`id`, `userRelation`.`followerId`, `userRelation`.`followeeId`, `userRelation`.`createdAt`, `userRelation`.`updatedAt`, `user`.`id` AS `user.id`, `user`.`userName` AS `user.userName`, `user`.`nickName` AS `user.nickName`, `user`.`picture` AS `user.picture` FROM `userRelations` AS `userRelation` LEFT OUTER JOIN `users` AS `user` ON `userRelation`.`followeeId` = `user`.`id` WHERE `userRelation`.`followerId` = 1 AND `userRelation`.`followeeId` != 1 ORDER BY `userRelation`.`id` DESC;
+2020-06-23 23:52:34: Executing (default): SELECT count(`weibo`.`id`) AS `count` FROM `weibos` AS `weibo` LEFT OUTER JOIN `users` AS `user` ON `weibo`.`userId` = `user`.`id` INNER JOIN `userRelations` AS `userRelation` ON `weibo`.`userId` = `userRelation`.`followeeId` AND `userRelation`.`followerId` = 1;
+2020-06-23 23:52:34: Executing (default): SELECT `weibo`.`id`, `weibo`.`userId`, `weibo`.`content`, `weibo`.`image`, `weibo`.`createdAt`, `weibo`.`updatedAt`, `user`.`id` AS `user.id`, `user`.`userName` AS `user.userName`, `user`.`nickName` AS `user.nickName`, `user`.`picture` AS `user.picture`, `userRelation`.`id` AS `userRelation.id`, `userRelation`.`followerId` AS `userRelation.followerId`, `userRelation`.`followeeId` AS `userRelation.followeeId` FROM `weibos` AS `weibo` LEFT OUTER JOIN `users` AS `user` ON `weibo`.`userId` = `user`.`id` INNER JOIN `userRelations` AS `userRelation` ON `weibo`.`userId` = `userRelation`.`followeeId` AND `userRelation`.`followerId` = 1 ORDER BY `weibo`.`id` DESC LIMIT 0, 3;
+2020-06-23 23:52:35:   --> GET / 200 656ms 7.14kb
+2020-06-23 23:52:35:   <-- GET /css/main.css
+2020-06-23 23:52:35:   <-- GET /css/list.css
+2020-06-23 23:52:35:   <-- GET /css/right.css
+2020-06-23 23:52:35:   <-- GET /css/tribute.css
+2020-06-23 23:52:35:   --> GET /css/main.css 200 14ms 714b
+2020-06-23 23:52:35:   --> GET /css/list.css 200 14ms 578b
+2020-06-23 23:52:35:   --> GET /css/right.css 200 15ms 561b
+2020-06-23 23:52:35:   --> GET /css/tribute.css 200 12ms 581b
+2020-06-23 23:54:47:   <-- GET /css/tribute.css
+2020-06-23 23:54:47:   <-- GET /javascripts/my-ajax.js
+2020-06-23 23:54:47:   --> GET /css/tribute.css 200 5ms 581b
+2020-06-23 23:54:47:   --> GET /javascripts/my-ajax.js 200 5ms 2.54kb
+2020-06-23 23:56:12:   <-- GET /css/list.css
+2020-06-23 23:56:12:   <-- GET /css/right.css
+2020-06-23 23:56:12:   <-- GET /css/tribute.css
+2020-06-23 23:56:12:   <-- GET /javascripts/my-ajax.js
+2020-06-23 23:56:12:   --> GET /css/list.css 200 7ms 578b
+2020-06-23 23:56:12:   --> GET /css/right.css 200 7ms 561b
+2020-06-23 23:56:12:   --> GET /css/tribute.css 200 7ms 581b
+2020-06-23 23:56:12:   --> GET /javascripts/my-ajax.js 200 7ms 2.54kb
+2020-06-23 23:56:12:   <-- GET /javascripts/query-object.js
+2020-06-23 23:56:12:   --> GET /javascripts/query-object.js 200 8ms 8.7kb
+2020-06-23 23:56:12:   <-- GET /api/user/getAtList
+2020-06-23 23:56:12: Executing (default): SELECT count(`userRelation`.`id`) AS `count` FROM `userRelations` AS `userRelation` LEFT OUTER JOIN `users` AS `user` ON `userRelation`.`followeeId` = `user`.`id` WHERE `userRelation`.`followerId` = 1 AND `userRelation`.`followeeId` != 1;
+2020-06-23 23:56:12: Executing (default): SELECT `userRelation`.`id`, `userRelation`.`followerId`, `userRelation`.`followeeId`, `userRelation`.`createdAt`, `userRelation`.`updatedAt`, `user`.`id` AS `user.id`, `user`.`userName` AS `user.userName`, `user`.`nickName` AS `user.nickName`, `user`.`picture` AS `user.picture` FROM `userRelations` AS `userRelation` LEFT OUTER JOIN `users` AS `user` ON `userRelation`.`followeeId` = `user`.`id` WHERE `userRelation`.`followerId` = 1 AND `userRelation`.`followeeId` != 1 ORDER BY `userRelation`.`id` DESC;
+2020-06-23 23:56:12: {
+  count: 1,
+  followee_list: [ { id: 3, userName: 'yang', nickName: 'yang', picture: null } ]
+}
+2020-06-23 23:56:12:   --> GET /api/user/getAtList 200 76ms 31b
+2020-06-23 23:59:22:   <-- GET /api/user/throwError
+2020-06-23 23:59:22:   xxx GET /api/user/throwError 500 24ms -
+2020-06-24 00:05:36:   <-- GET /
+2020-06-24 00:05:36: Executing (default): SELECT count(`user`.`id`) AS `count` FROM `users` AS `user` INNER JOIN `userRelations` AS `userRelations` ON `user`.`id` = `userRelations`.`followerId` AND `userRelations`.`followeeId` = 1 AND `userRelations`.`followerId` != 1;
+2020-06-24 00:05:36: Executing (default): SELECT `user`.`id`, `user`.`userName`, `user`.`nickName`, `user`.`picture`, `userRelations`.`id` AS `userRelations.id`, `userRelations`.`followerId` AS `userRelations.followerId`, `userRelations`.`followeeId` AS `userRelations.followeeId`, `userRelations`.`createdAt` AS `userRelations.createdAt`, `userRelations`.`updatedAt` AS `userRelations.updatedAt` FROM `users` AS `user` INNER JOIN `userRelations` AS `userRelations` ON `user`.`id` = `userRelations`.`followerId` AND `userRelations`.`followeeId` = 1 AND `userRelations`.`followerId` != 1 ORDER BY `user`.`id` DESC;
+2020-06-24 00:05:36: Executing (default): SELECT count(`userRelation`.`id`) AS `count` FROM `userRelations` AS `userRelation` LEFT OUTER JOIN `users` AS `user` ON `userRelation`.`followeeId` = `user`.`id` WHERE `userRelation`.`followerId` = 1 AND `userRelation`.`followeeId` != 1;
+2020-06-24 00:05:36: Executing (default): SELECT `userRelation`.`id`, `userRelation`.`followerId`, `userRelation`.`followeeId`, `userRelation`.`createdAt`, `userRelation`.`updatedAt`, `user`.`id` AS `user.id`, `user`.`userName` AS `user.userName`, `user`.`nickName` AS `user.nickName`, `user`.`picture` AS `user.picture` FROM `userRelations` AS `userRelation` LEFT OUTER JOIN `users` AS `user` ON `userRelation`.`followeeId` = `user`.`id` WHERE `userRelation`.`followerId` = 1 AND `userRelation`.`followeeId` != 1 ORDER BY `userRelation`.`id` DESC;
+2020-06-24 00:05:36: Executing (default): SELECT count(`weibo`.`id`) AS `count` FROM `weibos` AS `weibo` LEFT OUTER JOIN `users` AS `user` ON `weibo`.`userId` = `user`.`id` INNER JOIN `userRelations` AS `userRelation` ON `weibo`.`userId` = `userRelation`.`followeeId` AND `userRelation`.`followerId` = 1;
+2020-06-24 00:05:36: Executing (default): SELECT `weibo`.`id`, `weibo`.`userId`, `weibo`.`content`, `weibo`.`image`, `weibo`.`createdAt`, `weibo`.`updatedAt`, `user`.`id` AS `user.id`, `user`.`userName` AS `user.userName`, `user`.`nickName` AS `user.nickName`, `user`.`picture` AS `user.picture`, `userRelation`.`id` AS `userRelation.id`, `userRelation`.`followerId` AS `userRelation.followerId`, `userRelation`.`followeeId` AS `userRelation.followeeId` FROM `weibos` AS `weibo` LEFT OUTER JOIN `users` AS `user` ON `weibo`.`userId` = `user`.`id` INNER JOIN `userRelations` AS `userRelation` ON `weibo`.`userId` = `userRelation`.`followeeId` AND `userRelation`.`followerId` = 1 ORDER BY `weibo`.`id` DESC LIMIT 0, 3;
+2020-06-24 00:05:36:   --> GET / 200 478ms 7.14kb
+2020-06-24 00:05:36:   <-- GET /css/main.css
+2020-06-24 00:05:36:   <-- GET /css/list.css
+2020-06-24 00:05:36:   <-- GET /css/right.css
+2020-06-24 00:05:36:   <-- GET /javascripts/tribute.js
+2020-06-24 00:05:36:   --> GET /css/main.css 200 12ms 714b
+2020-06-24 00:05:36:   --> GET /css/list.css 200 12ms 578b
+2020-06-24 00:05:36:   --> GET /css/right.css 200 13ms 561b
+2020-06-24 00:05:36:   --> GET /javascripts/tribute.js 200 14ms 66.54kb
