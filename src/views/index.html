@@ -17,7 +17,8 @@
             <!-- 微博列表 第一页 -->
             <div id="container-weibo-list" class="weibo-list">
                 <%- include('components/blog-list', {
-                    blogData: blogList
+                    blogData: blogList,
+                    canReply: true
                 })%>
             </div> <!-- 微博列表 结束 -->
             <!-- 加载更多 -->

@@ -18,6 +18,48 @@
         <div class="info">
             <span>{{blog.createdAt}}</span>
             &nbsp;
+            <% if (canReply) { %>
+            <%# 可以回复 %>
+            <a href="#" class="blog-list-reply"
+                data-content="<%= blog.content%>"
+                data-userName="<%= blog.user.userName%>"
+            >
+                <i class="fa fa-mail-reply"></i> 回复
+            </a>
+            <% } %>
         </div>
     </div>
 <% }) %>
+
+<script>
+    $(function () {
+        // 设置焦点，把光标设置到最前面去。
+        function setCursor(el, st, end) {
+            if (el.setSelectionRange) {
+                el.focus()
+                el.setSelectionRange(st, end)
+            } else if (el.createTextRange) {
+                var range = el.createTextRange()
+                range.collapse(true)
+                range.moveEnd('character',end)
+                range.moveStart('character',st)
+                range.select()
+            }
+        }
+    
+        // 回复
+        var $textContent = $('#text-content')
+        $('.blog-list-reply').click(function (e) {
+            e.preventDefault()
+            var $target = $(e.target)
+    
+            // 获取内容和用户
+            var content = $target.attr('data-content')
+            var userName = $target.attr('data-userName')
+    
+            // 设置内容并获取焦点
+            $textContent.val(' // @'+ userName + ' : ' + content)
+            setCursor($textContent[0], 0, 0)
+        })
+    })
+    </script>
