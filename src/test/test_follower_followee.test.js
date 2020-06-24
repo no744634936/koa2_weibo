@@ -83,6 +83,22 @@ test("获取zhanghaifeng 关注的人，应该有wang",async()=>{
     expect(hasUsername).toBe(true);
 })
 
+//获取 zhanghaifeng的 @ 列表,也就是获取，zhanghaifeng关注的人
+test("获取zhanghaifeng 的@列表，应该有wang",async()=>{
+    
+    const response=await server
+                .get("/api/user/getAtList")
+                .set("cookie",COOKIE)
+
+    
+    let atList=response.body;
+    let hasUsername=atList.some(item=>{
+        return item.value===userName2;
+    })
+    expect(hasUsername).toBe(true);
+})
+
+
 
 //取消关注
 
