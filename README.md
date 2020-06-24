@@ -92,7 +92,7 @@ npm run prd
 
 
 4, 故意制作一个错误
-   数据连接
+   浏览器里输入
    http://localhost:3000/api/user/throwError
    就可以看到 error被打印进了错去日志
 
@@ -114,3 +114,62 @@ router.get("/throwError",async(ctx,next)=>{
    我的操作是靠一个进程，可是session存放在另一个进程里面。
    那么session就找不到。
    所以要将session等信息放入第三方redis里面。
+
+
+
+nginx 代理的功能
+
+1，静态文件服务器
+
+2，负载均衡，
+
+3，反向代理
+
+
+1，下载 nginx
+
+2，修改配置文件 找到nginx.conf 文件，(windows 跟 linux 系统存储文件的地点不一样)
+
+
+3，
+    查看我放进这个项目里的 exampleexample_nginx.conf  文件。
+    可以看到有以下内容。
+
+    listen       80;
+    server_name  localhost;
+    location / {
+        proxy_pass http://localhost:3000;
+    }
+
+    这几句话的意思是说当用户在浏览器输入 localhost 的时候
+    会自动跳到 http://localhost:3000 去
+
+    如果listen 后面是81 那么要在浏览器输入 localhost:81 
+    才能自动跳到 http://localhost:3000 去
+
+    ------------------------------------------------------------------------
+    修改access log(访问日志)的存放的位置
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                     '$status $body_bytes_sent "$http_referer" '
+                     '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log koa2_weibo/logs/access.log  main;
+
+
+
+4， 常用命令
+nginx -t     修改完配置文件后，检查配置文件是否正确
+
+nginx        启动nginx
+
+nginx -s reload   改了配置文件之后重启
+
+--------------------------------------------------------------------------------------------------
+日志
+
+access log : 访问日志 使用nginx，不推荐使用node.js来记录access log
+             因为access log有可能被分开成多个文件。到时候还得合并访问日志
+
+error log  : 错误日志就使用 pm2 ，用 console.error()打印错误日志
+
