@@ -1,6 +1,7 @@
 const {User}=require("./tables/user_table.js")
 const {Weibo}=require("./tables/weibo.js")
 const {UserRelation}=require("./tables/user_relation.js")
+const {AtRelation}=require("./tables/atRelation.js")
 
 
 
@@ -32,9 +33,12 @@ UserRelation.hasMany(Weibo,{
     constraints: false
 })
 
+AtRelation.belongsTo(Weibo,{foreignKey:'weiboId',constraints: false})
+Weibo.hasMany(AtRelation,{foreignKey:'weiboId',constraints: false})
 
 module.exports={
     Weibo,
     User,
-    UserRelation
+    UserRelation,
+    AtRelation
 }
