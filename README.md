@@ -4,4 +4,4 @@
 
 一个blog有很多个@ 的关系。
 
-建立 atRelations 表。
+建立 atRelation 表。
