@@ -1,6 +1,8 @@
 
 const WeiboModel=require("../../models/WeiboModel.js")
 const UserRelationModel=require("../../models/UserRelationModel.js")
+const UserModel=require("../../models/UserModel.js")
+const AtRelationModel=require("../../models/AtRelationModel")
 const {Success,Error}=require("./ApiResultFormat.js")
 const{
     create_weibo_failed,
@@ -8,12 +10,9 @@ const{
     unfollow_failed,
 }=require("../../conf/errorInfo.js")
 const xss=require("xss")
-const UserModel=require("../../models/UserModel.js")
 const template_art = require('art-template');
 const path=require("path")
 const {formatWeibo}=require("../../models/_format.js")
-
-
 
 class WeiboController{
     showTopPage=async(ctx,next)=>{
@@ -37,6 +36,9 @@ class WeiboController{
         let count=result.count
         let isEmpty= weibo_list.length===0 ? true : false
 
+        //获取@ 我的微博的数量
+        let atCount = await AtRelationModel.get_at_num(id);
+        
         await ctx.render("index.html",{
             //我自己的微博与我关注的人的微博，分页
             isEmpty,
@@ -44,6 +46,7 @@ class WeiboController{
             pageSize,
             pageNum: pageNum,
             count,
+            atCount,    //@我的微博的数量
 
             //用户的数据
             userInfo,
@@ -57,6 +60,32 @@ class WeiboController{
     }
     create=async(ctx,next)=>{
         let {content,image}=ctx.request.body
+
+        //分析并收集content中@到的人的id
+        //content 格式如 hello @wang @li good morning
+        let parten=/@(.+?)\s/g          
+        let at_user_name_arr=[];
+
+        content=content.replace(
+            parten,
+            (matchStr,userName)=>{
+                //替换但不生效，目的仅仅是使用replace方法取出userName
+                at_user_name_arr.push(userName)
+
+                return matchStr //替换但不生效
+            }
+        )
+
+        //根据at_user_arr 里的用户名查询用户信息
+
+        //的到一个promise的数组。
+        let at_user_promise=at_user_name_arr.map(userName=>UserModel.getUserInfo(userName))
+        let at_user_arr=await Promise.all(at_user_promise)
+
+        //根据用户信息获取用户id的数组
+        let at_user_id_arr=at_user_arr.map(user=>user.id)
+        
+
         //将session里的id 赋给userId，
         let userId=ctx.session.userInfo.id
         try{
@@ -65,6 +94,13 @@ class WeiboController{
                 content:xss(content),
                 image
             })
+
+            // 将@到的人的id 和微博id 放进 atrelations 表里去。
+            //一次性向数据库创建多条数据的时候，或者一次性取出多条数据的时候可以用promise.all
+            let record_arr=await Promise.all(at_user_id_arr.map(
+                userId=>AtRelationModel.create_at_relation(userId,weibo.id)
+            ))
+            
             //要将插入数据库的数据返回给前端，前端也许要拿着个这数据做些什么
             //所以将weibo当作参数了传进success里面去了
             ctx.body=new Success(weibo)
@@ -128,6 +164,10 @@ class WeiboController{
         // console.log(followee_result);
         
 
+        //获取@ 我的微博的数量
+        let atCount = await AtRelationModel.get_at_num(ctx.session.userInfo.id);
+        console.log("------------------------");
+        console.log(atCount);
 
         await ctx.render("profile.html",{
             isEmpty,
@@ -135,6 +175,7 @@ class WeiboController{
             pageSize,
             pageNum: pageNum,
             count,
+            atCount,
 
             userInfo,
             isMe,
