@@ -4,7 +4,9 @@
  */
 
 const{AtRelation,Weibo,User}=require("../db/relation.js")
-const{formatWeibo,formatUserImg}=require("./_format.js")
+const{formatWeibo,formatUserImg}=require("./_format.js");
+const atRelation = require("../db/tables/atRelation.js");
+
 
 class AtRelationModel{
 
@@ -90,7 +92,64 @@ class AtRelationModel{
         }
     }
 
+    /**
+     * 
+     * @param {number} Id 
+     * @param {number} pageNum 
+     * @param {number} pageSize 
+     */
+    weibo_is_readed=async(userId=1,pageNum=1,pageSize=3)=>{
+
+        //为什么要在这里try catch呢？
+        //因为这个方法不会像controller那样返回 new Success(userInfo);
+        // 或者返回 new Error(user_name_not_exist_info)
+        //它不用返回任何数据，它只需要执行就可以了。
+        //它执行失败了我需要知道。在线上环境中会打印的错误日志里面
+        //否者前端也不知道什么错误，后端也不知道什么错误。
+        try{
+                let result=await AtRelation.findAndCountAll({
+                    limit:pageSize,
+                    offset:(pageNum-1)*pageSize,
+                    order:[
+                        ["id","desc"],
+                    ],
+                    where:{userId:userId,isRead:false}
+                })
+        
+                let record_list=result.rows.map(row=>row.dataValues)
+        
+                //将要更新的记录的id从AtRelation表里取出来
+                let record_id_array=record_list.map(item=>{
+                    return item.id
+                })
+                
+                // console.log(record_id_array);
+        
+                //更新每一条记录。
+                record_id_array.map(async (id)=>{
+                    //sequelize 的update方法接收两个object
+                    //第一个是更新的数据
+                    //第二个是更新的条件 
+                    await AtRelation.update(
+                        {isRead:true},
+                        {where:{id:id,isRead:false}},
+                    )
+                })
+        }catch(err){
+            console.error(err);
+        }
+        
+
+
+
+    }
+
+
+
+
 }
 
+// let test=new AtRelationModel();
+// test.weibo_is_readed();
 
 module.exports=new AtRelationModel();

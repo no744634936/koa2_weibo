@@ -244,7 +244,7 @@ class WeiboController{
         
         let file_path=path.join(__dirname,"..","..","views","components","blog-list.html")
         let html = template_art(file_path, {
-            blogData:result.weibo_list
+            blogData:formatWeibo(result.weibo_list)
         });
         
         ctx.body={
@@ -278,7 +278,7 @@ class WeiboController{
 
         let file_path=path.join(__dirname,"..","..","views","components","blog-list.html")
         let html = template_art(file_path, {
-            blogData:result.weibo_list
+            blogData:formatWeibo(result.weibo_list)
         });
 
         ctx.body={
@@ -297,10 +297,15 @@ class WeiboController{
         let myUesrId=ctx.session.userInfo.id
         let pageSize=3
         let result=await WeiboModel.get_followee_blog_list(myUesrId,pageNum,pageSize)
-
+        
+        console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+        
+        console.log(result);
+        
+        
         let file_path=path.join(__dirname,"..","..","views","components","blog-list.html")
         let html = template_art(file_path, {
-            blogData:result.followee_weibo_list
+            blogData:formatWeibo(result.followee_weibo_list)
         });
         
         ctx.body={

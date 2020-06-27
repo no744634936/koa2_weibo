@@ -1,5 +1,7 @@
 
 const AtRelationModel=require("../../models/AtRelationModel")
+const template_art = require('art-template');
+const path=require("path")
 
 
 class AtMeController{
@@ -28,8 +30,37 @@ class AtMeController{
 
         })
 
-        //标记为已读，这段代码放在渲染前端页面之后。
+        //这一页显示完后标记为已读，这段代码放在渲染前端页面之后。
+        await AtRelationModel.weibo_is_readed(userId,pageNum,pageSize)
+        
 
+
+    }
+
+    at_me_page_load_more=async(ctx,next)=>{
+        let {pageNum}=ctx.params
+        // 字符串转成数字
+        pageNum=parseInt(pageNum);
+        let {id:userId}=ctx.session.userInfo
+        let pageSize=3
+        let result=await AtRelationModel.get_at_me_weibos(userId,pageNum,pageSize);
+
+        console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+        console.log(result);
+        
+        
+        let file_path=path.join(__dirname,"..","..","views","components","blog-list.html")
+        let html = template_art(file_path, {
+            blogData:result.weibo_list
+        });
+
+        ctx.body={
+            html:html,
+            pageNum:pageNum
+        }
+
+        //这一页显示完后标记为已读
+        await AtRelationModel.weibo_is_readed(userId,pageNum,pageSize)
     }
 }
 

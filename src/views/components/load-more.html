@@ -23,7 +23,7 @@
        $(function(){
         $('#btn-load-more').click(function(){
             var nextpageNum = PAGE_NUM + 1
-            console.log(api);
+            console.log(api,nextpageNum);
             
             $.getJSON(`${api}/${nextpageNum}`, function(data){
                 
