@@ -44,10 +44,6 @@ class AtMeController{
         let {id:userId}=ctx.session.userInfo
         let pageSize=3
         let result=await AtRelationModel.get_at_me_weibos(userId,pageNum,pageSize);
-
-        console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-        console.log(result);
-        
         
         let file_path=path.join(__dirname,"..","..","views","components","blog-list.html")
         let html = template_art(file_path, {
