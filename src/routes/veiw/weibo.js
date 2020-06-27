@@ -6,6 +6,7 @@
 const router=require("koa-router")();
 const {loginRedirect}=require("../../validator/loginCheck.js")
 const Weibo=require("../../controllers/user/WeiboController.js")
+const AtMeController=require("../../controllers/user/AtMeController.js")
 
 router.get("/",loginRedirect,Weibo.showTopPage)
 
@@ -17,5 +18,9 @@ router.get("/profile/:userName",loginRedirect,Weibo.showProfile)
 
 //显示广场页面
 router.get("/square",loginRedirect,Weibo.showSquare)
+
+//显示@我的微博页面
+
+router.get("/at-me",loginRedirect,AtMeController.get_at_me_weibo)
 
 module.exports=router
