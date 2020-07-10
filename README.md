@@ -12,5 +12,9 @@ createTables.js
 按顺序看完。
 
 运行命令
+
 node src/models/createTables.js
+ 
+ctrl + alt +n 也可以运行
+
 创建表格
