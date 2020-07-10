@@ -57,24 +57,37 @@ INSERT INTO `weibo_tests` VALUES (3,3,"wawawaawa","/test.picture",'2020-06-10 15
 
 
 get_followee_blog_list=async(myUserId)=>{
+
     //因为要查询的是微博，所以才是 Weibo.findAndCountAll
+    
     let result=await Weibo.findAndCountAll({
+    
         order:[["id","desc"]],
+        
         include:[
             {
                 model:User,
                 attributes:["id","userName","nickName","picture"]
             },
             //第一步这个时候，weibo与user表已经通过 userId=id联系起来了，
+            
             //每条weibo里面都包含了 user的"id","userName","nickName","picture" 信息
+            
             {
+            
                 model:UserRelation,
+                
                 attributes:["followerId","followeeId"],
+                
                 where:{followerId:myUserId}
+                
             }
             //第二步这个时候，根据followerId:myUserId 来取出符合条的记录
+            
             //然后因为 Weibo 表中的 userId  对应到 userRelation表中的FolloweeId ,
+            
             //所以可以通过followeeId找到 weibo表里的userId
+            
             //最后在userId 对应的记录里面写入"followerId","followeeId"
         ]
 })
