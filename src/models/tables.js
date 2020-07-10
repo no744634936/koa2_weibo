@@ -48,4 +48,4 @@ module.exports={
     author,
     blog
 }
-x
+
