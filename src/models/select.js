@@ -6,7 +6,7 @@ find=async()=>{
     let result=await author.findOne( {where : {name:"zhanghaifeng"} });
     console.log(result.dataValues);
 
-    //查询特定的列
+    //查询结果返回特定的列
     let result2=await author.findOne({
         attributes:["name","nickName"],
         where:{name:"zhanghaifeng"}
