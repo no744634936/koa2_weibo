@@ -6,7 +6,7 @@
 koa脚手架来快速生成项目
 端口在 bin/www文件里的
 var port = normalizePort(process.env.PORT || '3000');
-可以用更改端口
+可以用来更改端口
 
 
 
