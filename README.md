@@ -39,4 +39,4 @@ npm install --save sequelize
 
 运行看是否链接了数据库   node src/models/seq.js
 
-ctrl 加c 退出链接
+ctrl 加c 终止文件运行退出连接数据库，
