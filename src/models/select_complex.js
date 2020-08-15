@@ -55,10 +55,45 @@ find=async()=>{
         })
 
         console.log(result2);
-
+ 
+        //sequelize 返回的数据是json 格式的js object。
         //result2包含object所以用 JSON.stringify()来将它展开
         console.log(JSON.stringify(result2));
         
+        /*
+
+        返回的是json 格式的js object。
+            [
+                {
+                    name: 'zhanghaifeng',
+                    nickName: 'zhang',
+                    blogs: [ [blog] ],
+                    blog: [ [Object] ]
+                },
+                {
+                    name: 'lisi',
+                    nickName: '李四',
+                    blogs: [ [blog] ],
+                    blog: [ [Object] ]
+                }
+            ]
+
+        使用JSON.stringify()将json格式的js对象转变为字符串就可以看见里面具体的数据了
+            [
+                {
+                    "name":"zhanghaifeng",
+                    "nickName":"zhang",
+                    "blogs":[{"id":1,"title":"test","content":"test","authorID":1,"createdAt":"2020-06-18T23:31:16.000Z","updatedAt":"2020-06-18T23:31:16.000Z"}],
+                    "blog":[{"id":1,"title":"test","content":"test","authorID":1,"createdAt":"2020-06-18T23:31:16.000Z","updatedAt":"2020-06-18T23:31:16.000Z"}]
+                },
+                {
+                    "name":"lisi",
+                    "nickName":"李四",
+                    "blogs":[{"id":2,"title":"test2","content":"test2","authorID":2,"createdAt":"2020-06-18T23:31:16.000Z","updatedAt":"2020-06-18T23:31:16.000Z"}],
+                    "blog":[{"id":2,"title":"test2","content":"test2","authorID":2,"createdAt":"2020-06-18T23:31:16.000Z","updatedAt":"2020-06-18T23:31:16.000Z"}]
+                }
+            ]
+        */
         
 }
 
