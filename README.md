@@ -1,6 +1,8 @@
 使用这个项目的时候记得打开mysql 数据库跟redis
 
 
+npm install ajv --save
+
 将验证抽离出来做中间件，不要把验证放在controller里面，而是把验证放在，路由中。
 
 
