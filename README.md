@@ -12,3 +12,7 @@ npm install ajv --save
 
 
 router.post("/register",validate_userInfo,UserApiController.register)
+
+
+这个项目里面没有用这个包，但是可以导入ajv-errors来自定义 报错的信息
+npm install ajv-errors --save
