@@ -4,7 +4,7 @@
  * 
  */
 
-const validate_data=require("../validator/_validate.js")google
+const validate_data=require("../validator/_validate.js")
 const {Success,Error}=require("../controllers/user/ApiResultFormat.js")
 const {data_validataion_failed}=require("../conf/errorInfo.js")
 
