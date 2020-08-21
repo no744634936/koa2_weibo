@@ -6,7 +6,7 @@
 
  const Ajv=require("ajv")
  const ajv=new Ajv({
-    //  allErrors:true     //输出所有的错误(比较慢)
+    //  allErrors:true     //输出所有的错误(比较慢),就是将所有不符合要求的错误提示，一次性全部返回，而不是一个一个返回错误。
  })
 
 
