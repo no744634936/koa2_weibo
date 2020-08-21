@@ -4,12 +4,12 @@
  * 
  */
 
-const validate_data=require("../validator/_validate.js")
+const validate_data=require("../validator/_validate.js")google
 const {Success,Error}=require("../controllers/user/ApiResultFormat.js")
 const {data_validataion_failed}=require("../conf/errorInfo.js")
 
 
- // 校验规则 json schema
+ // 校验规则 json schema。可以google查看json schema的更多规则
 const SCHEMA = {
     type: 'object',
     properties: {
